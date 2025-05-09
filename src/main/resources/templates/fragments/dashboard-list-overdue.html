@@ -1,0 +1,16 @@
+<!--
+    <section th:replace="~{fragments/dashboard-list-overdue :: dashboard-list-overdue(header=${header}, items=${items})}"></section>
+
+    This list will also add a badge for overdue elements
+-->
+
+<section class="col" th:fragment="dashboard-list-overdue(header, items)" xmlns:th="http://www.thymeleaf.org">
+    <h2 th:text="${header}"></h2>
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center" th:each="item : ${items}">
+            Object here
+            <span class="badge bg-danger rounded-pill">Overdue by 14 days</span>
+            <!--            <span class="badge bg-warning rounded-pill">Overdue by 2 days</span>-->
+        </li>
+    </ul>
+</section>
