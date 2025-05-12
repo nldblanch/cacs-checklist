@@ -14,10 +14,14 @@
     <h1>Dashboard</h1>
     <div class="row">
 
-        <section th:replace="~{fragments/dashboard-list :: dashboard-list(header=${header}, items=${items})}"></section>
+        <section th:replace="~{fragments/dashboard-list :: dashboard-list(header='Recent Submissions', checklists=${completedChecklists})}"></section>
 
         <section
-                th:replace="~{fragments/dashboard-list-overdue :: dashboard-list-overdue(header='Non Compliance', items=${items})}"></section>
+                th:replace="~{fragments/dashboard-list-overdue :: dashboard-list-overdue(header='Non Compliance', checklists=${overdueChecklists})}"></section>
+
+    </div>
+    <div class="row">
+        <section th:replace="~{fragments/dashboard-list-pending :: dashboard-list-pending(header='Pending Submissions', checklists=${pendingChecklists})}"></section>
 
     </div>
 </div>
