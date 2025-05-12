@@ -1,14 +1,20 @@
 package com.v1.cacs_checklist.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+import java.time.LocalDate;
 import java.util.*;
 
+@Document
 public class Checklist {
+    @Id
     String checklistId;
     String checklistName;
     boolean submitted;
     boolean assessed;
-    String dueDate;
-    String submissionDate;
+    LocalDate dueDate;
+    LocalDate submissionDate;
     List<Field> fields;
     String ownerName;
     String ownerEmail;
@@ -18,7 +24,7 @@ public class Checklist {
     String assessorEmail;
 
     public Checklist(String checklistId, String checklistName, boolean submitted, boolean assessed,
-                     String dueDate, String submissionDate, List<Field> fields,
+                     LocalDate dueDate, LocalDate submissionDate, List<Field> fields,
                      String ownerName, String ownerEmail, String submitterName, String submitterEmail,
                      String assessorName, String assessorEmail) {
         this.checklistId = checklistId;
@@ -68,19 +74,19 @@ public class Checklist {
         this.assessed = assessed;
     }
 
-    public String getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
-    public String getSubmissionDate() {
+    public LocalDate getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(String submissionDate) {
+    public void setSubmissionDate(LocalDate submissionDate) {
         this.submissionDate = submissionDate;
     }
 

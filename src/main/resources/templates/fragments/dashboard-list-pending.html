@@ -15,7 +15,7 @@
 
                 <span class="badge bg-warning rounded-pill" th:text="Pending"></span>
                 <span class="fst-italic"
-                      th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), T(java.time.LocalDate).parse(c.dueDate))} + ' day(s)'"></span>
+                      th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), c.dueDate)} + ' day(s)'"></span>
             </div>
         </li>
     </ul>
