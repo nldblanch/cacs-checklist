@@ -2,6 +2,8 @@ package com.v1.cacs_checklist.controllers;
 
 import com.v1.cacs_checklist.models.Checklist;
 import com.v1.cacs_checklist.models.TestData;
+import com.v1.cacs_checklist.models.User;
+import com.v1.cacs_checklist.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 @Controller
 @RequestMapping("/owner")
@@ -18,8 +18,10 @@ public class OwnerController {
 
     @GetMapping("/dashboard")
     public String home(Model model) {
+        User user = UserService.getLoggedInUser();
+
         Map<String, List<Checklist>> categorised = ChecklistCategoriser.filterChecklists(
-                TestData.getDummyChecklists(), "dave@company.com"
+                TestData.getDummyChecklists(), user.getUsername()
         );
 
         List<Checklist> completed = categorised.get("completed");
@@ -30,7 +32,7 @@ public class OwnerController {
         model.addAttribute("pendingChecklists", pending);
         model.addAttribute("overdueChecklists", overdue);
 
-        model.addAttribute("roles", Arrays.asList("owner", "submitter", "admin", "assessor"));
+        model.addAttribute("roles", user.getRoles());
         model.addAttribute("current", "owner");
         return "owner/dashboard";
     }
