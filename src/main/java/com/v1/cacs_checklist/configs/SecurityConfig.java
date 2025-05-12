@@ -28,21 +28,16 @@ public class SecurityConfig {
                         //Submitter permissions
                         .requestMatchers("/submitter/dashboard").hasAuthority("SUBMITTER")
                         .requestMatchers("/submitter/checklists").hasAuthority("SUBMITTER")
-                        .requestMatchers("/submitter/checklists/{id}").hasAuthority("SUBMITTER")
-                        .requestMatchers("/submitter/checklists/pending").hasAuthority("SUBMITTER")
-                        .requestMatchers("/submitter/checklists/pending/{id}").hasAuthority("SUBMITTER")
+                        .requestMatchers("/submitter/checklists/**").hasAuthority("SUBMITTER")
                         //Assessor permissions
                         .requestMatchers("/assessor/dashboard").hasAuthority("ASSESSOR")
                         .requestMatchers("/assessor/checklists").hasAuthority("ASSESSOR")
-                        .requestMatchers("/assessor/checklists/{id}").hasAuthority("ASSESSOR")
-                        .requestMatchers("/assessor/checklists/pending").hasAuthority("ASSESSOR")
-                        .requestMatchers("/assessor/checklists/pending/{id}").hasAuthority("ASSESSOR")
+                        .requestMatchers("/assessor/checklists/**").hasAuthority("ASSESSOR")
                         //Owner permissions
                         .requestMatchers("/owner/dashboard").hasAuthority("OWNER")
                         .requestMatchers("/owner/checklists").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}/submissions").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}/submissions/{id}").hasAuthority("OWNER")
+                        .requestMatchers("/owner/checklists/**").hasAuthority("OWNER")
+
                         // Other permissions
                         .requestMatchers("/**").denyAll()
                         .requestMatchers("/login.html").permitAll()
