@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/owner/checklists").hasAuthority("OWNER")
                         .requestMatchers("/owner/checklists/{id}").hasAuthority("OWNER")
                         .requestMatchers("/owner/checklists/{id}/submissions").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}/submissions/{id}").hasAuthority("ASSESSOR")
+                        .requestMatchers("/owner/checklists/{id}/submissions/{id}").hasAuthority("OWNER")
                         // Other permissions
                         .requestMatchers("/**").denyAll()
                         .requestMatchers("/login.html").permitAll()
