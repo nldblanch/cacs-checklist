@@ -23,16 +23,19 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean active;
-    private String roles;
+    private List<String> roles;
+    private String name;
 
-    public User(String username, String password, boolean active, String roles) {
+    public User(String username, String password, boolean active, List<String> roles, String name) {
         this.username = username;
         this.password = password;
         this.active = active;
         this.roles = roles;
+        this.name = name;
     }
 
-    public User(){}
+    public User() {
+    }
 
     //getters and setters
     public int getId() {
@@ -45,7 +48,7 @@ public class User implements UserDetails {
     }
 
     public void setUsername(String username) {
-        if (username == null || username.trim().isEmpty()){
+        if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }
         this.username = username;
@@ -71,12 +74,12 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public String getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
-        if (roles == null || roles.trim().isEmpty()) {
+    public void setRoles(List<String> roles) {
+        if (roles == null || roles.isEmpty()) {
             throw new IllegalArgumentException("Roles cannot be null or empty.");
         }
         this.roles = roles;
@@ -85,7 +88,17 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> results = new ArrayList<>();
-        results.add(new SimpleGrantedAuthority(roles));
+        for (String role : roles) {
+            results.add(new SimpleGrantedAuthority(role));
+        }
         return results;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
