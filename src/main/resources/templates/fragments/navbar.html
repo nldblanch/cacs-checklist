@@ -24,8 +24,13 @@
                     <a th:text="${#strings.toUpperCase(#strings.substring(current, 0, 1)) + #strings.substring(current, 1)}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li th:each="role : ${roles}"><a th:text="${#strings.toUpperCase(#strings.substring(role, 0, 1)) + #strings.substring(role, 1)}" class="dropdown-item" th:href="@{/{role}/dashboard(role=${role})}"></a></li>
+                        <li th:each="role : ${roles}">
+                            <a th:text="${#strings.toUpperCase(#strings.substring(role, 0, 1)) + #strings.substring(role, 1).toLowerCase()}"
+                               class="dropdown-item"
+                               th:href="@{/{role}/dashboard(role=${#strings.toLowerCase(role)})}"></a>
+                        </li>
                     </ul>
+
                 </li>
             </ul>
         </div>
