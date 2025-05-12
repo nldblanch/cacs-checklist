@@ -1,19 +1,19 @@
 <!--
-    <section th:replace="~{fragments/dashboard-list :: dashboard-list(header=${header}, items=${items})}"></section>
+    <section th:replace="~{fragments/dashboard-list :: dashboard-list(header='Your Header', checklists=${checklists})}"></section>
 
-    ArrayList<Item> items;
-
-    model.addAttribute("header", "Recent Submissions");
-    model.addAttribute("items", items);
-
-    The item structure has not been defined yet
 -->
 
-<section class="col" th:fragment="dashboard-list(header, items)" xmlns:th="http://www.thymeleaf.org">
-    <h2 th:text="${header}"></h2>
+<section class="col" th:fragment="dashboard-list(header, checklists)" xmlns:th="http://www.thymeleaf.org">
+    <h2 th:text="${header} + ' (' + ${#lists.size(checklists)} + ')'"></h2>
     <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center" th:each="item : ${items}">
-            Object here
+        <li class="list-group-item d-flex justify-content-between align-items-center" th:each="c : ${checklists}">
+            <span class="text-left" th:text="${c.checklistName}"></span>
+            <span class="text-left" th:text="'Submitted by ' + ${c.submitterName}"></span>
+            <div th:switch="${c.assessed}">
+                <span class="badge bg-success rounded-pill" th:case="true">Reviewed</span>
+                <span class="badge bg-warning rounded-pill" th:case="false">Awaiting review</span>
+                <p th:case="*">Didn't get there</p>
+            </div>
         </li>
     </ul>
 </section>
