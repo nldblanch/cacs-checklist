@@ -1,5 +1,6 @@
 package com.v1.cacs_checklist.models;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
@@ -10,6 +11,8 @@ import java.util.*;
 public class Checklist {
     @Id
     String checklistId;
+    @Indexed
+    String checklistTemplateId;
     String checklistName;
     boolean submitted;
     boolean assessed;
@@ -23,11 +26,12 @@ public class Checklist {
     String assessorName;
     String assessorEmail;
 
-    public Checklist(String checklistId, String checklistName, boolean submitted, boolean assessed,
+    public Checklist(String checklistId, String checklistTemplateId, String checklistName, boolean submitted, boolean assessed,
                      LocalDate dueDate, LocalDate submissionDate, List<Field> fields,
                      String ownerName, String ownerEmail, String submitterName, String submitterEmail,
                      String assessorName, String assessorEmail) {
         this.checklistId = checklistId;
+        this.checklistTemplateId = checklistTemplateId;
         this.checklistName = checklistName;
         this.submitted = submitted;
         this.assessed = assessed;
@@ -47,6 +51,14 @@ public class Checklist {
     }
 
     public void setChecklistId(String checklistId) {
+        this.checklistId = checklistId;
+    }
+
+    public String getChecklistTemplateId() {
+        return checklistId;
+    }
+
+    public void setChecklistTemplateId(String checklistId) {
         this.checklistId = checklistId;
     }
 

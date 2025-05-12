@@ -40,9 +40,9 @@ public class SecurityConfig {
                         //Owner permissions
                         .requestMatchers("/owner/dashboard").hasAuthority("OWNER")
                         .requestMatchers("/owner/checklists").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}/submissions").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/{id}/submissions/{id}").hasAuthority("ASSESSOR")
+                        .requestMatchers("/owner/checklists/{templateId}").hasAuthority("OWNER")
+                        .requestMatchers("/owner/checklists/{templateId}/submissions").hasAuthority("OWNER")
+                        .requestMatchers("/owner/checklists/{templateId}/submissions/{submissionId}").hasAuthority("ASSESSOR")
                         // Other permissions
                         .requestMatchers("/**").denyAll()
                         .requestMatchers("/login.html").permitAll()
