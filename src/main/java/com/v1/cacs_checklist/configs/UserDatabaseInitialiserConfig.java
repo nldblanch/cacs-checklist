@@ -22,9 +22,8 @@ public class UserDatabaseInitialiserConfig {
     private PasswordEncoder passwordEncoder;
 
     @Bean
-    public CommandLineRunner initailizeJpaData() {
+    public CommandLineRunner initialiseJpaData() {
         return (args)-> {
-
         };
 
 }
