@@ -24,6 +24,7 @@ public class UserDatabaseInitialiserConfig {
     @Bean
     public CommandLineRunner initialiseJpaData() {
         return (args)-> {
+
         };
 
 }
