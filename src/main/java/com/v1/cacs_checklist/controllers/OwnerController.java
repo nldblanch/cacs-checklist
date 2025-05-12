@@ -3,7 +3,9 @@ package com.v1.cacs_checklist.controllers;
 import com.v1.cacs_checklist.models.Checklist;
 import com.v1.cacs_checklist.models.TestData;
 import com.v1.cacs_checklist.models.User;
+import com.v1.cacs_checklist.services.ChecklistService;
 import com.v1.cacs_checklist.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +17,15 @@ import java.util.*;
 @Controller
 @RequestMapping("/owner")
 public class OwnerController {
+    @Autowired
+    ChecklistService checklistService;
 
     @GetMapping("/dashboard")
     public String home(Model model) {
         User user = UserService.getLoggedInUser();
 
         Map<String, List<Checklist>> categorised = ChecklistCategoriser.filterChecklists(
-                TestData.getDummyChecklists(), user.getUsername()
+                checklistService.getOwnerChecklists(user.getUsername())
         );
 
         List<Checklist> completed = categorised.get("completed");
@@ -38,7 +42,7 @@ public class OwnerController {
     }
 
     static class ChecklistCategoriser {
-        public static Map<String, List<Checklist>> filterChecklists(List<Checklist> checklists, String identifier) {
+        public static Map<String, List<Checklist>> filterChecklists(List<Checklist> checklists) {
             List<Checklist> completed = new ArrayList<>();
             List<Checklist> pending = new ArrayList<>();
             List<Checklist> overdue = new ArrayList<>();
@@ -46,9 +50,8 @@ public class OwnerController {
             LocalDate today = LocalDate.now();
 
             for (Checklist c : checklists) {
-                if (!c.getOwnerEmail().equalsIgnoreCase(identifier)) continue;
 
-                LocalDate dueDate = LocalDate.parse(c.getDueDate());
+                LocalDate dueDate = c.getDueDate();
 
                 if (c.isSubmitted()) {
                     completed.add(c);
