@@ -102,14 +102,17 @@ public class OwnerController {
         addNav(model);
         Template template = templateService.getTemplateById(templateId);
         model.addAttribute("template", template);
-        return "/owner/checklist-by-id";
+        return "/owner/template-by-id";
     }
 
     @GetMapping("/checklists/{templateId}/submissions")
     public String getChecklistSubmissions(@PathVariable String templateId, Model model) {
         verify();
         addNav(model);
-
+        Template template = templateService.getTemplateById(templateId);
+        model.addAttribute("template", template);
+        List<Checklist> submissions = checklistService.getChecklistSubmissions(user.getUsername(), templateId);
+        model.addAttribute("submissions", submissions);
         return "/owner/checklist-submissions";
     }
 
@@ -117,8 +120,9 @@ public class OwnerController {
     public String getChecklistById(@PathVariable String templateId, @PathVariable String submissionId, Model model) {
         verify();
         addNav(model);
-
-        return "";
+        Checklist submission = checklistService.getChecklistById(submissionId);
+        model.addAttribute("submission", submission);
+        return "/owner/submission-by-id";
     }
 
 
