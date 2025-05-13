@@ -33,7 +33,7 @@ public class HomeController {
         List<Template> templates = TestChecklistData.getDummyTemplates();
         templateService.createTemplates(templates);
 
-        return "index";
+        return "login";
     }
 
 }
