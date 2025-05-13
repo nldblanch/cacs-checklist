@@ -24,4 +24,12 @@ public class ChecklistService
     public List<Checklist> getOwnerChecklists(String username) {
         return checklistRepository.findByOwnerEmail(username);
     }
+
+    public Checklist getChecklistById(String checklistId) {
+        return checklistRepository.findById(checklistId).orElse(null);
+    }
+
+    public List<Checklist> getChecklistSubmissions(String username, String templateId) {
+        return checklistRepository.findByOwnerEmailAndChecklistTemplateId(username, templateId);
+    }
 }
