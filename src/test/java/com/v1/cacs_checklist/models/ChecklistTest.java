@@ -1,8 +1,8 @@
 package com.v1.cacs_checklist.models;
 
-
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,8 +12,8 @@ public class ChecklistTest {
     @Test
     void testConstructor_setsChecklistId() throws NoSuchFieldException, IllegalAccessException {
         Checklist checklist = new Checklist(
-                "CHK001", "Safety Checklist", true, false,
-                "2025-05-31", "2025-05-01",
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
                 List.of(new Field("Fire Extinguisher", "Yes")),
                 "Alice", "alice@example.com",
                 "Bob", "bob@example.com",
@@ -28,8 +28,8 @@ public class ChecklistTest {
     @Test
     void testConstructor_setsChecklistName() throws NoSuchFieldException, IllegalAccessException {
         Checklist checklist = new Checklist(
-                "CHK001", "Safety Checklist", true, false,
-                "2025-05-31", "2025-05-01",
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
                 List.of(new Field("Fire Extinguisher", "Yes")),
                 "Alice", "alice@example.com",
                 "Bob", "bob@example.com",
@@ -44,8 +44,8 @@ public class ChecklistTest {
     @Test
     void testConstructor_setsSubmitted() throws NoSuchFieldException, IllegalAccessException {
         Checklist checklist = new Checklist(
-                "CHK001", "Safety Checklist", true, false,
-                "2025-05-31", "2025-05-01",
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
                 List.of(new Field("Fire Extinguisher", "Yes")),
                 "Alice", "alice@example.com",
                 "Bob", "bob@example.com",
@@ -60,8 +60,8 @@ public class ChecklistTest {
     @Test
     void testConstructor_setsAssessed() throws NoSuchFieldException, IllegalAccessException {
         Checklist checklist = new Checklist(
-                "CHK001", "Safety Checklist", true, true,
-                "2025-05-31", "2025-05-01",
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, true,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
                 List.of(new Field("Fire Extinguisher", "Yes")),
                 "Alice", "alice@example.com",
                 "Bob", "bob@example.com",
@@ -77,8 +77,8 @@ public class ChecklistTest {
     void testConstructor_setsFields() throws NoSuchFieldException, IllegalAccessException {
         List<Field> fieldList = List.of(new Field("Fire Extinguisher", "Yes"));
         Checklist checklist = new Checklist(
-                "CHK001", "Safety Checklist", true, false,
-                "2025-05-31", "2025-05-01",
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
                 fieldList,
                 "Alice", "alice@example.com",
                 "Bob", "bob@example.com",
@@ -88,6 +88,54 @@ public class ChecklistTest {
         final java.lang.reflect.Field field = checklist.getClass().getDeclaredField("fields");
         field.setAccessible(true);
         assertEquals(fieldList, field.get(checklist), "Fields didn't match");
+    }
+
+    @Test
+    void testConstructor_setsChecklistTemplateId() throws NoSuchFieldException, IllegalAccessException {
+        Checklist checklist = new Checklist(
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
+                List.of(new Field("Fire Extinguisher", "Yes")),
+                "Alice", "alice@example.com",
+                "Bob", "bob@example.com",
+                "Charlie", "charlie@example.com"
+        );
+
+        final java.lang.reflect.Field field = checklist.getClass().getDeclaredField("checklistTemplateId");
+        field.setAccessible(true);
+        assertEquals("TEMPLATE001", field.get(checklist), "Fields didn't match");
+    }
+
+    @Test
+    void testConstructor_setsDueDate() throws NoSuchFieldException, IllegalAccessException {
+        Checklist checklist = new Checklist(
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
+                List.of(new Field("Fire Extinguisher", "Yes")),
+                "Alice", "alice@example.com",
+                "Bob", "bob@example.com",
+                "Charlie", "charlie@example.com"
+        );
+
+        final java.lang.reflect.Field field = checklist.getClass().getDeclaredField("dueDate");
+        field.setAccessible(true);
+        assertEquals(LocalDate.parse("2025-05-31"), field.get(checklist), "Fields didn't match");
+    }
+
+    @Test
+    void testConstructor_setsSubmissionDate() throws NoSuchFieldException, IllegalAccessException {
+        Checklist checklist = new Checklist(
+                "CHK001", "TEMPLATE001", "Safety Checklist", true, false,
+                LocalDate.parse("2025-05-31"), LocalDate.parse("2025-05-01"),
+                List.of(new Field("Fire Extinguisher", "Yes")),
+                "Alice", "alice@example.com",
+                "Bob", "bob@example.com",
+                "Charlie", "charlie@example.com"
+        );
+
+        final java.lang.reflect.Field field = checklist.getClass().getDeclaredField("submissionDate");
+        field.setAccessible(true);
+        assertEquals(LocalDate.parse("2025-05-01"), field.get(checklist), "Fields didn't match");
     }
 
 }
