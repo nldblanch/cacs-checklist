@@ -67,11 +67,11 @@ public class AssessorController {
 
                 LocalDate dueDate = c.getDueDate();
 
-                if (c.isSubmitted()) {
+                if (c.isSubmitted() && c.isAssessed()) {
                     completed.add(c);
-                } else if (!c.isSubmitted() && dueDate.isBefore(today)) {
+                } else if (c.isSubmitted() && !c.isAssessed()) {
                     overdue.add(c);
-                } else if (!c.isSubmitted() && !dueDate.isBefore(today)) {
+                } else {
                     pending.add(c);
                 }
             }
