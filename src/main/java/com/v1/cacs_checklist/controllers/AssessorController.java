@@ -41,12 +41,12 @@ public class AssessorController {
         );
 
         List<Checklist> completed = categorised.get("completed");
-        List<Checklist> pending = categorised.get("pendingSubmission");
-        List<Checklist> overdue = categorised.get("pendingReview");
+        List<Checklist> pendingSubmission = categorised.get("pendingSubmission");
+        List<Checklist> pendingReview = categorised.get("pendingReview");
 
         model.addAttribute("completedChecklists", completed);
-        model.addAttribute("pendingSubmissionChecklists", pending);
-        model.addAttribute("pendingReviewChecklists", overdue);
+        model.addAttribute("pendingSubmissionChecklists", pendingSubmission);
+        model.addAttribute("pendingReviewChecklists", pendingReview);
 
 
 //        model.addAttribute("roles", Arrays.asList("owner", "submitter", "admin", "assessor"));
@@ -58,27 +58,26 @@ public class AssessorController {
     static class ChecklistCategoriser {
         public static Map<String, List<Checklist>> filterChecklists(List<Checklist> checklists) {
             List<Checklist> completed = new ArrayList<>();
-            List<Checklist> pending = new ArrayList<>();
-            List<Checklist> overdue = new ArrayList<>();
-
-            LocalDate today = LocalDate.now();
+            List<Checklist> pendingSubmission = new ArrayList<>();
+            List<Checklist> pendingReview = new ArrayList<>();
 
             for (Checklist c : checklists) {
-
-
-
                 if (c.isSubmitted() && c.isAssessed()) {
+                    //  Submitted AND Assessed → COMPLETED
                     completed.add(c);
                 } else if (c.isSubmitted() && !c.isAssessed()) {
-                    overdue.add(c);
-                } else {
-                    pending.add(c);
+                    //  Submitted but NOT Assessed → PENDING SUBMISSION
+                    pendingSubmission.add(c);
+                } else if (!c.isSubmitted()) {
+                    // Not Submitted → PENDING REVIEW (assuming this is what you meant)
+                    pendingReview.add(c);
                 }
             }
+
             Map<String, List<Checklist>> result = new HashMap<>();
             result.put("completed", completed);
-            result.put("pending submission", pending);
-            result.put("pending review", overdue);
+            result.put("pendingSubmission", pendingSubmission);
+            result.put("pendingReview", pendingReview);
 
             return result;
         }
