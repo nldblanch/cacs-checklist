@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService implements UserDetailsManager {
     @Autowired
@@ -55,4 +58,10 @@ public class UserService implements UserDetailsManager {
         }
         return null;
     }
+
+    public List<User> getUsersByRole(String role) {
+        return userRepository.findAll().stream().filter(user -> user.getRoles().contains(role))
+        .collect(Collectors.toList());
+    }
+
 }

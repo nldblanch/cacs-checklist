@@ -30,6 +30,30 @@
             </li>
         </ul>
     </div>
+
+    <div class="mt-4">
+        <h2 class="mb-3">Assign Checklist</h2>
+        <form th:action="@{/owner/checklists/{templateId}/submit(templateId=${template.templateId})}" method="post">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="submitter" class="form-label">Submitter</label>
+                    <select id="submitter" name="submitter" class="form-select">
+                        <option value="" disabled selected>Select a submitter</option>
+                        <option th:each="user : ${submitters}" th:value="${user.username}" th:text="${user.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="assessor" class="form-label">Assessor</label>
+                    <select id="assessor" name="assessor" class="form-select">
+                        <option value="" disabled selected>Select an assessor</option>
+                        <option th:each="user : ${assessors}" th:value="${user.username}" th:text="${user.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="owner" th:value="${template.ownerName}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
