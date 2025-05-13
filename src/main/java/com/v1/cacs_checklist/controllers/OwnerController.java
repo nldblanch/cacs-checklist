@@ -127,7 +127,7 @@ public class OwnerController {
         Template template = templateService.getTemplateById(templateId);
         Checklist submission = checklistService.getChecklistById(submissionId);
 
-        if (submission == null || tempalte == null) {
+        if (submission == null || template == null) {
             return "redirect:/owner/error";
         }
         model.addAttribute("template", template);
