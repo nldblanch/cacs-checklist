@@ -51,6 +51,10 @@ public class User implements UserDetails {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!username.matches(emailRegex)) {
+            throw new IllegalArgumentException("Username must be a valid email address");
+        }
         this.username = username;
     }
 
