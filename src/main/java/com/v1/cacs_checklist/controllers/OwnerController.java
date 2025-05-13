@@ -27,9 +27,7 @@ public class OwnerController {
     User user;
 
     private void verify() {
-        if (this.user == null) {
-            this.user = UserService.getLoggedInUser();
-        }
+        this.user = UserService.getLoggedInUser();
     }
 
     private void addNav(Model model) {
