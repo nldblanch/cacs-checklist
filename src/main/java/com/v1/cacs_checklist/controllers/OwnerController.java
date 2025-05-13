@@ -99,6 +99,9 @@ public class OwnerController {
         verify();
         addNav(model);
         Template template = templateService.getTemplateById(templateId);
+        if (template == null) {
+            return "redirect:/owner/error";
+        }
         model.addAttribute("template", template);
         return "/owner/template-by-id";
     }
@@ -108,6 +111,9 @@ public class OwnerController {
         verify();
         addNav(model);
         Template template = templateService.getTemplateById(templateId);
+        if (template == null) {
+            return "redirect:/owner/error";
+        }
         model.addAttribute("template", template);
         List<Checklist> submissions = checklistService.getChecklistSubmissions(user.getUsername(), templateId);
         model.addAttribute("submissions", submissions);
@@ -120,11 +126,14 @@ public class OwnerController {
         addNav(model);
         Template template = templateService.getTemplateById(templateId);
         Checklist submission = checklistService.getChecklistById(submissionId);
+
+        if (submission == null || tempalte == null) {
+            return "redirect:/owner/error";
+        }
         model.addAttribute("template", template);
         model.addAttribute("submission", submission);
         return "/owner/submission-by-id";
     }
-
 
 }
 
