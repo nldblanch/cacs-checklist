@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Document
 public class Template {
@@ -98,6 +99,22 @@ public class Template {
         public void setDataType(String dataType) {
             this.dataType = dataType;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Fieldset fieldset = (Fieldset) obj;
+            return Objects.equals(fieldName, fieldset.fieldName) &&
+                    Objects.equals(dataType, fieldset.dataType) &&
+                    required == fieldset.required;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(fieldName, dataType, required);
+        }
+
     }
 }
 
