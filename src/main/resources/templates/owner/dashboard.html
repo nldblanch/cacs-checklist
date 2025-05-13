@@ -16,8 +16,7 @@
 
         <section th:replace="~{fragments/dashboard-list :: dashboard-list(header='Recent Submissions', checklists=${completedChecklists})}"></section>
 
-        <section
-                th:replace="~{fragments/dashboard-list-overdue :: dashboard-list-overdue(header='Non Compliance', checklists=${overdueChecklists})}"></section>
+        <section th:replace="~{fragments/dashboard-list-overdue :: dashboard-list-overdue(header='Non Compliance', checklists=${overdueChecklists})}"></section>
 
     </div>
     <div class="row">

@@ -1,14 +1,21 @@
 package com.v1.cacs_checklist.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.config.Customizer; // Correct import
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+
+    @Autowired
+    private CustomAuthSuccessHandler customAuthSuccessHandler;
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -22,28 +29,26 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
 
                         //Admin permissions
-                        .requestMatchers("/admin/dashboard").hasAuthority("ADMIN")
-                        .requestMatchers("/admin/assign").hasAuthority("ADMIN")
-                        .requestMatchers("/admin/projects").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         //Submitter permissions
-                        .requestMatchers("/submitter/dashboard").hasAuthority("SUBMITTER")
-                        .requestMatchers("/submitter/checklists").hasAuthority("SUBMITTER")
-                        .requestMatchers("/submitter/checklists/**").hasAuthority("SUBMITTER")
+                        .requestMatchers("/submitter/**").hasAuthority("SUBMITTER")
                         //Assessor permissions
-                        .requestMatchers("/assessor/dashboard").hasAuthority("ASSESSOR")
-                        .requestMatchers("/assessor/checklists").hasAuthority("ASSESSOR")
-                        .requestMatchers("/assessor/checklists/**").hasAuthority("ASSESSOR")
+                        .requestMatchers("/assessor/**").hasAuthority("ASSESSOR")
                         //Owner permissions
-                        .requestMatchers("/owner/dashboard").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists").hasAuthority("OWNER")
-                        .requestMatchers("/owner/checklists/**").hasAuthority("OWNER")
-
+                        .requestMatchers("/owner/**").hasAuthority("OWNER")
                         // Other permissions
                         .requestMatchers("/**").denyAll()
                         .requestMatchers("/login.html").permitAll()
                 )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successHandler(customAuthSuccessHandler)
+                        .failureUrl("/login-error")
+                        .permitAll()
+                )
+
                 .httpBasic(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable());
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
 

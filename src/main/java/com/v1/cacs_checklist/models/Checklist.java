@@ -1,14 +1,23 @@
 package com.v1.cacs_checklist.models;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+import java.time.LocalDate;
 import java.util.*;
 
+@Document
 public class Checklist {
+    @Id
     String checklistId;
+    @Indexed
+    String checklistTemplateId;
     String checklistName;
     boolean submitted;
     boolean assessed;
-    String dueDate;
-    String submissionDate;
+    LocalDate dueDate;
+    LocalDate submissionDate;
     List<Field> fields;
     String ownerName;
     String ownerEmail;
@@ -17,11 +26,12 @@ public class Checklist {
     String assessorName;
     String assessorEmail;
 
-    public Checklist(String checklistId, String checklistName, boolean submitted, boolean assessed,
-                     String dueDate, String submissionDate, List<Field> fields,
+    public Checklist(String checklistId, String checklistTemplateId, String checklistName, boolean submitted, boolean assessed,
+                     LocalDate dueDate, LocalDate submissionDate, List<Field> fields,
                      String ownerName, String ownerEmail, String submitterName, String submitterEmail,
                      String assessorName, String assessorEmail) {
         this.checklistId = checklistId;
+        this.checklistTemplateId = checklistTemplateId;
         this.checklistName = checklistName;
         this.submitted = submitted;
         this.assessed = assessed;
@@ -41,6 +51,14 @@ public class Checklist {
     }
 
     public void setChecklistId(String checklistId) {
+        this.checklistId = checklistId;
+    }
+
+    public String getChecklistTemplateId() {
+        return checklistId;
+    }
+
+    public void setChecklistTemplateId(String checklistId) {
         this.checklistId = checklistId;
     }
 
@@ -68,19 +86,19 @@ public class Checklist {
         this.assessed = assessed;
     }
 
-    public String getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
-    public String getSubmissionDate() {
+    public LocalDate getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(String submissionDate) {
+    public void setSubmissionDate(LocalDate submissionDate) {
         this.submissionDate = submissionDate;
     }
 
