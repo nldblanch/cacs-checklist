@@ -157,7 +157,7 @@ public class OwnerControllerIntegrationTest {
 
         String nonExistentTemplateId = "99999";
         String submissionId = "CL001";
-        mvc.perform(get("/owner/checklists/{templateId}/submissions/${submissionId}", nonExistentTemplateId, submissionId))
+        mvc.perform(get("/owner/checklists/{templateId}/submissions/{submissionId}", nonExistentTemplateId, submissionId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/owner/error"));
     }
@@ -167,7 +167,7 @@ public class OwnerControllerIntegrationTest {
 
         String templateId = "Temp1";
         String nonExistentSubmissionId = "99999";
-        mvc.perform(get("/owner/checklists/{templateId}/submissions/${submissionId}", templateId, nonExistentSubmissionId))
+        mvc.perform(get("/owner/checklists/{templateId}/submissions/{submissionId}", templateId, nonExistentSubmissionId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/owner/error"));
     }
