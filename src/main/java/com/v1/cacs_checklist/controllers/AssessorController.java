@@ -41,12 +41,12 @@ public class AssessorController {
         );
 
         List<Checklist> completed = categorised.get("completed");
-        List<Checklist> pending = categorised.get("pending");
-        List<Checklist> overdue = categorised.get("overdue");
+        List<Checklist> pending = categorised.get("pendingSubmission");
+        List<Checklist> overdue = categorised.get("pendingReview");
 
         model.addAttribute("completedChecklists", completed);
-        model.addAttribute("pendingChecklists", pending);
-        model.addAttribute("overdueChecklists", overdue);
+        model.addAttribute("pendingSubmissionChecklists", pending);
+        model.addAttribute("pendingReviewChecklists", overdue);
 
 
 //        model.addAttribute("roles", Arrays.asList("owner", "submitter", "admin", "assessor"));
@@ -65,7 +65,7 @@ public class AssessorController {
 
             for (Checklist c : checklists) {
 
-                LocalDate dueDate = c.getDueDate();
+
 
                 if (c.isSubmitted() && c.isAssessed()) {
                     completed.add(c);
@@ -77,8 +77,8 @@ public class AssessorController {
             }
             Map<String, List<Checklist>> result = new HashMap<>();
             result.put("completed", completed);
-            result.put("pending", pending);
-            result.put("overdue", overdue);
+            result.put("pending submission", pending);
+            result.put("pending review", overdue);
 
             return result;
         }
