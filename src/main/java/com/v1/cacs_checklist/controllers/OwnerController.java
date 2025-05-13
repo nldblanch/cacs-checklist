@@ -118,7 +118,9 @@ public class OwnerController {
     public String getChecklistById(@PathVariable String templateId, @PathVariable String submissionId, Model model) {
         verify();
         addNav(model);
+        Template template = templateService.getTemplateById(templateId);
         Checklist submission = checklistService.getChecklistById(submissionId);
+        model.addAttribute("template", template);
         model.addAttribute("submission", submission);
         return "/owner/submission-by-id";
     }
