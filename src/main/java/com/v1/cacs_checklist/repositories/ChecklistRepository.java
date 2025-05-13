@@ -8,6 +8,7 @@ import java.util.List;
 public interface ChecklistRepository extends MongoRepository<Checklist, String> {
     List<Checklist> findByOwnerEmail(String ownerEmail);
     List<Checklist> findBySubmitterEmail(String ownerEmail);
+    List<Checklist> findByAssessorEmail(String ownerEmail);
     List<Checklist> findByOwnerEmailAndChecklistTemplateId(String ownerEmail, String checklistTemplateId);
 
 }

@@ -36,7 +36,7 @@ public class SubmitterController {
         verify();
         addNav(model);
 
-        Map<String, List<Checklist>> categorised = OwnerController.ChecklistCategoriser.filterChecklists(
+        Map<String, List<Checklist>> categorised = SubmitterController.ChecklistCategoriser.filterChecklists(
                 checklistService.getSubmitterChecklists(user.getUsername())
         );
 
