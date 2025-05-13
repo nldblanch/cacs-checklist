@@ -124,10 +124,13 @@ public class OwnerController {
     public String getChecklistById(@PathVariable String templateId, @PathVariable String submissionId, Model model) {
         verify();
         addNav(model);
+        Template template = templateService.getTemplateById(templateId);
         Checklist submission = checklistService.getChecklistById(submissionId);
-        if (submission == null) {
+
+        if (submission == null || template == null) {
             return "redirect:/owner/error";
         }
+        model.addAttribute("template", template);
         model.addAttribute("submission", submission);
         return "/owner/submission-by-id";
     }

@@ -55,11 +55,11 @@ public class Checklist {
     }
 
     public String getChecklistTemplateId() {
-        return checklistId;
+        return checklistTemplateId;
     }
 
     public void setChecklistTemplateId(String checklistId) {
-        this.checklistId = checklistId;
+        this.checklistTemplateId = checklistId;
     }
 
     public String getChecklistName() {

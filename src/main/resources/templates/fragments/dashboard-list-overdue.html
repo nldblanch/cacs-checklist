@@ -5,18 +5,28 @@
 -->
 
 <section class="col" th:fragment="dashboard-list-overdue(header, checklists)" xmlns:th="http://www.thymeleaf.org">
-    <h2 th:text="${header + ' (' + (checklists != null ? #lists.size(checklists) : 0) + ')'}"></h2>
-    <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center"
-            th:each="c : ${checklists}">
-            <span class="text-left" th:text="${c.checklistName}"></span>
-            <span class="text-left" th:text="'Assigned to ' + ${c.submitterName}"></span>
-            <div>
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-3" th:text="${header + ' (' + (checklists != null ? #lists.size(checklists) : 0) + ')'}"></h2>
 
-                <span class="badge bg-danger rounded-pill" th:text="Overdue"></span>
-                <span class="fst-italic"
-                      th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(c.dueDate, T(java.time.LocalDate).now())} + ' day(s)'"></span>
-            </div>
-        </li>
-    </ul>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                th:each="i : ${#numbers.sequence(0, T(java.lang.Math).min(4, checklists.size() - 1))}">
+                <div class="d-flex flex-column">
+                    <a th:text="${checklists[i].checklistName}"
+                       th:href="'/owner/checklists/' + ${checklists[i].checklistTemplateId} + '/submissions/' + ${checklists[i].checklistId}"
+                       class="fw-bold text-decoration-none"></a>
+                    <span class="text-muted" th:text="'Assigned to ' + ${checklists[i].submitterName}"></span>
+                </div>
+                <div>
+                    <span class="badge bg-danger rounded-pill">Overdue</span>
+                    <span class="fst-italic"
+                          th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(checklists[i].dueDate, T(java.time.LocalDate).now())} + ' day(s)'"></span>
+                </div>
+            </li>
+
+            <li th:if="${#lists.size(checklists) > 5}" class="list-group-item text-center">
+                <a th:href="'/owner/checklists'" class="btn btn-outline-danger btn-sm">View More</a>
+            </li>
+        </ul>
+    </div>
 </section>

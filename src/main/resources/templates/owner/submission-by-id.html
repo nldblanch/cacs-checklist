@@ -3,23 +3,40 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Submission Details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 
 <nav th:replace="~{fragments/navbar :: navbar(roles=${roles}, current=${current})}"></nav>
-<div class="container">
-    <h1 th:text="${submission.checklistName}"></h1>
-    <p th:text="${submission.ownerName} + ' is the owner'"></p>
-    <ul>
-        <li th:each="f : ${submission.fields}">
-            <p th:text="${f.fieldName}"></p>
-            <p th:text="${f.response}"></p>
-        </li>
-    </ul>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-3 text-primary" th:text="${submission.checklistName}"></h1>
+                <p class="text-muted mb-3" th:text="${submission.ownerName} + ' is the owner'"></p>
+            </div>
+            <div class="col-auto">
+                <a th:href="'/owner/checklists/' + ${template.templateId} + '/submissions'"
+                   class="btn btn-outline-primary">Back To Submissions</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-4">
+        <h3 class="mb-3">Submission Fields</h3>
+        <ul class="list-group">
+            <li th:each="f : ${submission.fields}" class="list-group-item">
+                <p class="fw-bold mb-1" th:text="${f.fieldName}"></p>
+                <p class="text-muted mb-1" th:text="'Response: ' + ${f.response}"></p>
+            </li>
+        </ul>
+    </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

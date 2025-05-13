@@ -3,21 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your Templates</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 
 <nav th:replace="~{fragments/navbar :: navbar(roles=${roles}, current=${current})}"></nav>
-<div class="container">
-    <h1>Your Templates</h1>
-    <ul>
-        <li th:each="template : ${templates}">
-            <a th:href="'/owner/checklists/' + ${template.templateId}" th:text="${template.templateName}"></a>
-        </li>
-    </ul>
+
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Your Templates</h1>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <ul class="list-group">
+                <li th:each="t : ${templates}" class="list-group-item">
+                    <a th:href="'/owner/checklists/' + ${t.templateId}" th:text="${t.templateName}" class="text-decoration-none"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
