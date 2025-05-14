@@ -24,7 +24,7 @@
 <div class="container mt-4">
     <div class="card shadow-sm p-4">
         <h2 class="mb-4" th:text="'Complete Checklist: ' + ${checklist.checklistName}"></h2>
-        <form th:action="@{/submitter/checklists/{id}/submit(id=${checklist.checklistId})}" method="post">
+        <form th:action="@{/submitter/checklists/{checklistId}/submit(id=${checklist.checklistId})}" method="post">
             <div th:each="field, iterStat : ${checklist.fields}" class="mb-3">
                 <label th:for="${'field-' + iterStat.index}" th:text="${field.fieldName}" class="form-label"></label>
                 <input type="text" th:id="${'field-' + iterStat.index}"

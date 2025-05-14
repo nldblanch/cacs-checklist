@@ -2,15 +2,14 @@ package com.v1.cacs_checklist.controllers;
 
 
 import com.v1.cacs_checklist.models.Checklist;
+import com.v1.cacs_checklist.models.Field;
 import com.v1.cacs_checklist.models.User;
 import com.v1.cacs_checklist.services.ChecklistService;
 import com.v1.cacs_checklist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -106,6 +105,27 @@ public class SubmitterController {
             return "submitter/checklist-edit";
         }
 
+    }
+
+    @PostMapping("/checklists/{checklistId}/submit")
+    public String submitChecklist(@PathVariable String checklistId,
+                                  @ModelAttribute("fields") List<Field> fields) {
+        Checklist checklist = checklistService.getChecklistById(checklistId);
+        if (fields == null) {
+            fields = new ArrayList<>(); // Or handle it however you like
+        }
+        if (checklist == null || checklist.isSubmitted()) {
+            return "redirect:/submitter/error";
+        }
+        checklist.setFields(fields);
+        checklist.setSubmitted(true);
+        checklist.setSubmissionDate(LocalDate.now());
+        checklist.setSubmitterName(user.getName());
+        checklist.setSubmitterEmail(user.getUsername());
+
+        checklistService.saveChecklist(checklist);
+
+        return "redirect:/submitter/checklists/" + checklistId;
     }
 }
 

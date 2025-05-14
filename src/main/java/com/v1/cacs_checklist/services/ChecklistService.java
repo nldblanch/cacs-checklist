@@ -38,4 +38,9 @@ public class ChecklistService
     public List<Checklist> getChecklistSubmissions(String username, String templateId) {
         return checklistRepository.findByOwnerEmailAndChecklistTemplateId(username, templateId);
     }
+
+   public Checklist saveChecklist(Checklist checklist) {
+        return checklistRepository.save(checklist);
+   }
+
 }
