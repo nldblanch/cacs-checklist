@@ -33,6 +33,7 @@ public class OwnerController {
     private void addNav(Model model) {
         model.addAttribute("roles", user.getRoles());
         model.addAttribute("current", "owner");
+        model.addAttribute("username", user.getName());
     }
     @GetMapping("/dashboard")
     public String home(Model model) {

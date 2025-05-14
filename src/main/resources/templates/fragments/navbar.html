@@ -7,13 +7,13 @@
 
 -->
 
+<nav th:fragment="navbar(roles, current, username)" class="navbar navbar-expand-lg navbar-custom" xmlns:th="http://www.thymeleaf.org">
 
-<nav th:fragment="navbar(roles, current)" class="navbar navbar-expand-lg navbar-custom" xmlns:th="http://www.thymeleaf.org">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/{current}/dashboard(current=${current})}"><img height="40px"  th:src="@{data:image/jpeg;base64,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}"></a>
@@ -23,18 +23,26 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a th:text="${#strings.toUpperCase(#strings.substring(current, 0, 1)) + #strings.substring(current, 1)}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    </a>
+                    <a th:text="${#strings.capitalize(current)}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li th:each="role : ${roles}">
-                            <a th:text="${#strings.toUpperCase(#strings.substring(role, 0, 1)) + #strings.substring(role, 1).toLowerCase()}"
+                            <a th:text="${#strings.capitalize(role)}"
                                class="dropdown-item"
                                th:href="@{/{role}/dashboard(role=${#strings.toLowerCase(role)})}"></a>
                         </li>
                     </ul>
-
                 </li>
             </ul>
+
+            <div class="d-flex align-items-center">
+                <!-- Display the current logged-in username -->
+                <span class="nav-item text-muted me-3" th:text="${username != null ? username : ''}"></span>
+
+                <!-- Logout button -->
+                <form action="/logout" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+            </div>
         </div>
     </div>
 </nav>

@@ -29,6 +29,7 @@ public class SubmitterController {
     private void addNav(Model model) {
         model.addAttribute("roles", user.getRoles());
         model.addAttribute("current", "submitter");
+        model.addAttribute("username", user.getName());
     }
 
     @GetMapping("/dashboard")

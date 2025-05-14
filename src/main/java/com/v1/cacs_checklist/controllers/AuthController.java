@@ -9,7 +9,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // This should match the name of your login.html file
+        return "login";
     }
 
     @GetMapping("/login-error")

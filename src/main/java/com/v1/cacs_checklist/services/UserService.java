@@ -50,7 +50,10 @@ public class UserService implements UserDetailsManager {
 
     public static User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof com.v1.cacs_checklist.models.User) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        if (authentication.getPrincipal() instanceof com.v1.cacs_checklist.models.User) {
             return (User) authentication.getPrincipal();
         }
         return null;
