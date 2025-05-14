@@ -90,6 +90,32 @@ class TemplateTest {
 
     }
 
+    void givenFieldsetConstructorWithExtraField_whenObjectCreated_thenFieldsAreSetCorrectly() throws NoSuchFieldException, IllegalAccessException {
+        // Create the initial object
+        Template.Fieldset fieldset = new Template.Fieldset(
+                "Fire Hazard", "boolean", true, List.of("Yes", "No")
+        );
+
+        //Use reflection to get fields
+        final java.lang.reflect.Field fieldNameField = fieldset.getClass().getDeclaredField("fieldName");
+        final java.lang.reflect.Field dataTypeField = fieldset.getClass().getDeclaredField("dataType");
+        final java.lang.reflect.Field requiredField = fieldset.getClass().getDeclaredField("required");
+        final java.lang.reflect.Field optionsField = fieldset.getClass().getDeclaredField("options");
+
+        // Make fields accessible
+        fieldNameField.setAccessible(true);
+        dataTypeField.setAccessible(true);
+        requiredField.setAccessible(true);
+        optionsField.setAccessible(true);
+
+        // Assertions
+        assertEquals("Fire Hazard", fieldNameField.get(fieldset), "Fields didn't match");
+        assertEquals("boolean", dataTypeField.get(fieldset), "Fields didn't match");
+        assertEquals(true, requiredField.get(fieldset), "Fields didn't match");
+        assertEquals(List.of("Yes", "No"), optionsField.get(fieldset), "Fields didn't match");
+
+    }
+
     @Test
     public void givenFieldset_whenUsingReflection_thenGettersAndSettersWork() throws Exception {
         // Create an initial Fieldset object
@@ -99,11 +125,13 @@ class TemplateTest {
         invokeSetter(fieldset, "setFieldName", String.class, "Emergency Exit");
         invokeSetter(fieldset, "setDataType", String.class, "string");
         invokeSetter(fieldset, "setRequired", boolean.class, false);
+        invokeSetter(fieldset, "setOptions", List.class, List.of("Yes", "No"));
 
         // Reflection-based getter assertions
         assertEquals("Emergency Exit", invokeGetter(fieldset, "getFieldName"));
         assertEquals("string", invokeGetter(fieldset, "getDataType"));
         assertEquals(false, invokeGetter(fieldset, "isRequired"));
+        assertEquals(List.of("Yes", "No"), invokeGetter(fieldset, "getOptions"));
     }
 
     // Helper method to invoke setters with proper type resolution
