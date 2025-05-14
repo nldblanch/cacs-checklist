@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.v1.cacs_checklist.models.Field.*;
+
 @Controller
 @RequestMapping("/submitter")
 public class SubmitterController {
@@ -23,7 +25,9 @@ public class SubmitterController {
 
     User user;
 
-    private void verify() {this.user = UserService.getLoggedInUser();}
+    private void verify() {
+        this.user = UserService.getLoggedInUser();
+    }
 
     private void addNav(Model model) {
         model.addAttribute("roles", user.getRoles());
@@ -72,14 +76,15 @@ public class SubmitterController {
                     pending.add(c);
                 }
             }
-                Map<String, List<Checklist>> result = new HashMap<>();
-                result.put("completed", completed);
-                result.put("pending", pending);
-                result.put("overdue", overdue);
+            Map<String, List<Checklist>> result = new HashMap<>();
+            result.put("completed", completed);
+            result.put("pending", pending);
+            result.put("overdue", overdue);
 
-                return result;
-            }
+            return result;
         }
+    }
+
     @GetMapping("/checklists/{checklistId}")
 
     public String getChecklistById(@PathVariable String checklistId, Model model) {
@@ -107,26 +112,92 @@ public class SubmitterController {
 
     }
 
-    @PostMapping("/checklists/{checklistId}/submit")
+    //    @PostMapping("/checklists/{checklistId}/submit")
+//    public String submitChecklist(@PathVariable String checklistId,
+//                                  @ModelAttribute("checklist") Checklist checklist) {
+//        Checklist existing = checklistService.getChecklistById(checklistId);
+//        if (existing == null) {
+//            return "redirect:/submitter/error";
+//        }
+//        List<Field> formFields = checklist.getFields();  // These come from the form data
+//        List<Field> existingFields = existing.getFields(); // These are the fields already saved in DB
+//
+//        for (int i = 0; i < existingFields.size(); i++) {
+//            existingFields.get(i).setResponse(formFields.get(i).getResponse());
+//        }
+//
+//        existing.setSubmitted(true);
+//        checklistService.saveChecklist(existing);
+//
+//        return "redirect:/submitter/checklists/" + checklistId;
+//    }
+//    @PostMapping("/checklists/{checklistId}/submit")
+//    public String submitChecklist(@PathVariable String checklistId, @ModelAttribute Checklist checklistFromForm) {
+//
+//        // Fetch existing checklist from DB using checklistId
+//        Checklist existing = checklistService.getChecklistById(checklistId);
+//
+//        System.out.println(existing);
+//
+//        // If it doesn't exist, redirect to error page
+//        if (existing == null) {
+//            return "redirect:/submitter/error";
+//        }
+//
+//        // Update the field responses in the existing checklist using the form values
+//        List<Field> submittedFields = checklistFromForm.getFields();
+//        List<Field> existingFields = existing.getFields();
+//
+//        if (submittedFields != null && existingFields != null && submittedFields.size() == existingFields.size()) {
+//            for (int i = 0; i < existingFields.size(); i++) {
+//                existingFields.get(i).setResponse(submittedFields.get(i).getResponse());
+//            }
+//        }
+//
+//        // Mark the checklist as submitted
+//        existing.setSubmitted(true);
+//        System.out.println(existing.isSubmitted());
+//        // Save the updated checklist
+//        checklistService.saveChecklist(existing);
+//
+//        // Redirect to the view page or confirmation
+//        return "redirect:/submitter/checklists/" + checklistId;
+//    }
+    @PostMapping("/submitter/checklists/{checklistId}/submit")
     public String submitChecklist(@PathVariable String checklistId,
-                                  @ModelAttribute("fields") List<Field> fields) {
+                                  @RequestParam Map<String, String> fields) {
+
+        // Fetch the checklist from the database
         Checklist checklist = checklistService.getChecklistById(checklistId);
-        if (fields == null) {
-            fields = new ArrayList<>(); // Or handle it however you like
+        if (checklist == null) {
+            return "redirect:/submitter/error";  // Handle case where checklist is not found
         }
-        if (checklist == null || checklist.isSubmitted()) {
-            return "redirect:/submitter/error";
+
+        // Iterate over the form fields and update the corresponding checklist fields
+        for (String fieldName : fields.keySet()) {
+            if (fieldName.startsWith("fields[")) {
+                String fieldIndex = fieldName.substring(fieldName.indexOf('[') + 1, fieldName.indexOf(']'));
+                String response = fields.get(fieldName);
+
+                // Find the corresponding field in the checklist
+                int index = Integer.parseInt(fieldIndex);
+                Field field = checklist.getFields().get(index);
+                field.setResponse(response);
+            }
         }
-        checklist.setFields(fields);
+
+        // Mark the checklist as submitted
         checklist.setSubmitted(true);
-        checklist.setSubmissionDate(LocalDate.now());
-        checklist.setSubmitterName(user.getName());
-        checklist.setSubmitterEmail(user.getUsername());
 
-        checklistService.saveChecklist(checklist);
+        // Save the updated checklist
+        checklistService.updateChecklist(checklistId, checklist.getFields());
 
+        // Redirect to the checklist detail page after submission
         return "redirect:/submitter/checklists/" + checklistId;
     }
+
 }
+
+
 
 

@@ -10,7 +10,7 @@ public interface ChecklistRepository extends MongoRepository<Checklist, String> 
     List<Checklist> findByOwnerEmail(String ownerEmail);
     List<Checklist> findBySubmitterEmail(String ownerEmail);
     List<Checklist> findByAssessorEmail(String ownerEmail);
-    Optional<Checklist> findByChecklistId(String checklistId);
+    Checklist findByChecklistId(String checklistId);
     List<Checklist> findByOwnerEmailAndChecklistTemplateId(String ownerEmail, String checklistTemplateId);
 
 }
