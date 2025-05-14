@@ -1,5 +1,6 @@
 package com.v1.cacs_checklist.services;
 
+import com.v1.cacs_checklist.models.Field;
 import com.v1.cacs_checklist.models.Template;
 import com.v1.cacs_checklist.repositories.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,9 @@ public class TemplateService {
 
     public Template getTemplateById(String templateId) {
         return templateRepository.findById(templateId).orElse(null);
+    }
+
+    public List<Field> getFields(String templateID) {
+        return templateRepository.getFields(templateID);
     }
 }
