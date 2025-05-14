@@ -81,9 +81,34 @@ public class SubmitterController {
                 return result;
             }
         }
+    @GetMapping("/checklists/{checklistId}")
 
+    public String getChecklistById(@PathVariable String checklistId, Model model) {
+        verify();
+        addNav(model);
+        Optional<Checklist> optionalChecklist = Optional.ofNullable(checklistService.getChecklistById(checklistId));
 
+        // If no checklist is found, redirect to an error page
+        if (optionalChecklist.isEmpty()) {
+            return "redirect:/submitter/error";  // Adjust to your error page mapping
+        }
+
+        // Get the checklist from the Optional
+        Checklist checklist = optionalChecklist.get();
+
+        // Add checklist to model so Thymeleaf can access it
+        model.addAttribute("checklist", checklist);
+
+        // Check if the checklist is submitted
+        if (checklist.isSubmitted()) {
+            // If submitted, return the view for the submitted form
+            return "submitter/submission-by-id";  // The page that shows submitted checklists
+        } else {
+            // If not submitted, return the page to complete the checklist
+            return "submitter/checklist-edit";  // A page where user can fill out the form
+        }
 
     }
+}
 
 

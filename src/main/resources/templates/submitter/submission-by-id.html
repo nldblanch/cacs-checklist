@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checklist View</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color: rgb(5, 40, 49); /* Dark teal */
+            color: rgb(253, 247, 234); /* Light cream */
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: rgb(0, 198, 194); /* Turquoise */
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar inclusion -->
+<nav th:replace="~{fragments/navbar :: navbar(roles=${roles}, current=${current}, username=${username})}"></nav>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-3 text-primary" th:text="${checklist.checklistName}">Checklist Name</h1>
+                <p class="text-muted mb-1" th:text="'Owned by ' + ${checklist.ownerName}"></p>
+                <p class="text-muted" th:text="'Submitted by ' + ${checklist.submitterName} + ' on ' + ${#temporals.format(checklist.submissionDate, 'dd MMM yyyy')}"></p>
+            </div>
+            <div class="col-auto">
+                <a th:href="@{/submitter/dashboard}" class="btn btn-outline-primary">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3 class="mb-3">Checklist Details</h3>
+        <ul class="list-group mb-4">
+            <li class="list-group-item">
+                <strong>Checklist ID:</strong> <span th:text="${checklist.checklistId}"></span>
+            </li>
+            <li class="list-group-item">
+                <strong>Template ID:</strong> <span th:text="${checklist.checklistTemplateId}"></span>
+            </li>
+            <li class="list-group-item">
+                <strong>Due Date:</strong> <span th:text="${#temporals.format(checklist.dueDate, 'dd MMM yyyy')}"></span>
+            </li>
+            <li class="list-group-item">
+                <strong>Assessed:</strong> <span th:text="${checklist.assessed} ? 'Yes' : 'No'"></span>
+            </li>
+            <li class="list-group-item">
+                <strong>Assessor:</strong> <span th:text="${checklist.assessorName} + '(' + ${checklist.assessorEmail} + ')'"></span>
+            </li>
+        </ul>
+
+        <h4 class="mb-3">Checklist Fields</h4>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="f : ${checklist.fields}">
+                <p class="fw-bold mb-1" th:text="${f.fieldName}">Field Name</p>
+                <p class="text-muted mb-1" th:text="'Response: ' + ${f.response}">Response</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
