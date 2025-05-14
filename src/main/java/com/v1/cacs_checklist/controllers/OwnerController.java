@@ -1,6 +1,7 @@
 package com.v1.cacs_checklist.controllers;
 
 import com.v1.cacs_checklist.models.Checklist;
+import com.v1.cacs_checklist.models.Field;
 import com.v1.cacs_checklist.models.Template;
 import com.v1.cacs_checklist.models.User;
 import com.v1.cacs_checklist.services.ChecklistService;
@@ -157,6 +158,8 @@ public class OwnerController {
         String assessorName = assessorInfo[0];
         String assessorEmail = assessorInfo[1];
 
+        List<Field> fieldData = templateService.getFields(templateId);
+
         Checklist newChecklist = new Checklist(
                 UUID.randomUUID().toString(),
                 templateId,
@@ -165,7 +168,7 @@ public class OwnerController {
                 false,
                 LocalDate.now().plusDays(7), // Example due date
                 null,
-                null,
+                fieldData,//template.getFields(),
                 user.getName(), //owner name
                 user.getUsername(), //owner email
                 submitterName, //submitter name tbc
