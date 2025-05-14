@@ -1,6 +1,7 @@
 package com.v1.cacs_checklist.controllers;
 
 import com.v1.cacs_checklist.models.Checklist;
+import com.v1.cacs_checklist.models.Field;
 import com.v1.cacs_checklist.models.Template;
 import com.v1.cacs_checklist.models.User;
 import com.v1.cacs_checklist.services.ChecklistService;
@@ -9,9 +10,7 @@ import com.v1.cacs_checklist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -23,6 +22,8 @@ public class OwnerController {
     ChecklistService checklistService;
     @Autowired
     TemplateService templateService;
+    @Autowired
+    UserService userService;
 
     User user;
 
@@ -103,11 +104,19 @@ public class OwnerController {
         if (template == null) {
             return "redirect:/owner/error";
         }
+
         if (!Objects.equals(template.getOwnerEmail(), user.getUsername())) {
             return "redirect:/owner/error";
         }
+
+        List<User> submitters = userService.getUsersByRole("SUBMITTER");
+        List<User> assessors = userService.getUsersByRole("ASSESSOR");
+
         model.addAttribute("template", template);
+        model.addAttribute("submitters", submitters);
+        model.addAttribute("assessors", assessors);
         return "/owner/template-by-id";
+
     }
 
     @GetMapping("/checklists/{templateId}/submissions")
@@ -138,6 +147,46 @@ public class OwnerController {
         model.addAttribute("submission", submission);
         return "/owner/submission-by-id";
     }
+
+    @PostMapping("/checklists/{templateId}/submit")
+    public String submitChecklist(@PathVariable String templateId, @RequestParam String submitter, @RequestParam String assessor, Model model) {
+        verify();
+        Template template = templateService.getTemplateById(templateId);
+        if (template == null) {
+            return "redirect:/owner/error";
+        }
+
+        String[] submitterInfo = submitter.split("\\|");
+        String submitterName = submitterInfo[0];
+        String submitterEmail = submitterInfo[1];
+
+        String[] assessorInfo = assessor.split("\\|");
+        String assessorName = assessorInfo[0];
+        String assessorEmail = assessorInfo[1];
+
+        List<Field> fieldData = templateService.getFields(templateId);
+
+        Checklist newChecklist = new Checklist(
+                UUID.randomUUID().toString(),
+                templateId,
+                template.getTemplateName(),
+                false,
+                false,
+                LocalDate.now().plusDays(7), // Example due date
+                null,
+                fieldData,//template.getFields(),
+                user.getName(), //owner name
+                user.getUsername(), //owner email
+                submitterName, //submitter name tbc
+                submitterEmail, //submitter email tbc
+                assessorName, //assessor name tbc
+                assessorEmail // assessor email tbc
+        );
+        checklistService.createChecklist(newChecklist);
+        return "redirect:/owner/checklists/" + templateId + "/submissions";
+    }
+
+
 
 }
 
