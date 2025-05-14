@@ -148,6 +148,15 @@ public class OwnerController {
         if (template == null) {
             return "redirect:/owner/error";
         }
+
+        String[] submitterInfo = submitter.split("\\|");
+        String submitterName = submitterInfo[0];
+        String submitterEmail = submitterInfo[1];
+
+        String[] assessorInfo = assessor.split("\\|");
+        String assessorName = assessorInfo[0];
+        String assessorEmail = assessorInfo[1];
+
         Checklist newChecklist = new Checklist(
                 UUID.randomUUID().toString(),
                 templateId,
@@ -155,14 +164,14 @@ public class OwnerController {
                 false,
                 false,
                 LocalDate.now().plusDays(7), // Example due date
-                LocalDate.now(),
+                null,
                 null,
                 user.getName(), //owner name
                 user.getUsername(), //owner email
-                submitter, //submitter name tbc
-                submitter, //submitter email tbc
-                assessor, //assessor name tbc
-                assessor // assessor email tbc
+                submitterName, //submitter name tbc
+                submitterEmail, //submitter email tbc
+                assessorName, //assessor name tbc
+                assessorEmail // assessor email tbc
         );
         checklistService.createChecklist(newChecklist);
         return "redirect:/owner/checklists/" + templateId + "/submissions";

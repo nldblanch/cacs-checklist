@@ -51,14 +51,14 @@
                     <label for="submitter" class="form-label">Submitter</label>
                     <select id="submitter" name="submitter" class="form-select">
                         <option value="" disabled selected>Select a submitter</option>
-                        <option th:each="user : ${submitters}" th:value="${user.username}" th:text="${user.name}"></option>
+                        <option th:each="user : ${submitters}" th:value="${user.name} + '|' + ${user.username}" th:text="${user.name}"></option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label for="assessor" class="form-label">Assessor</label>
                     <select id="assessor" name="assessor" class="form-select">
                         <option value="" disabled selected>Select an assessor</option>
-                        <option th:each="user : ${assessors}" th:value="${user.username}" th:text="${user.name}"></option>
+                        <option th:each="user : ${assessors}" th:value="${user.name} + '|' + ${user.username}" th:text="${user.name}"></option>
                     </select>
                 </div>
             </div>
