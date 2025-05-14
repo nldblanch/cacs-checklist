@@ -26,7 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/", "/login.html").permitAll()
 
                         //Admin permissions
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -37,8 +37,7 @@ public class SecurityConfig {
                         //Owner permissions
                         .requestMatchers("/owner/**").hasAuthority("OWNER")
                         // Other permissions
-                        .requestMatchers("/**").denyAll()
-                        .requestMatchers("/login.html").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -46,7 +45,18 @@ public class SecurityConfig {
                         .failureUrl("/login-error")
                         .permitAll()
                 )
-
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                )
+                .sessionManagement(session -> session
+                        .sessionFixation().newSession()
+                        .invalidSessionUrl("/login?sessionExpired")
+                )
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
 

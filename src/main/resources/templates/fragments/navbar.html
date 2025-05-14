@@ -6,12 +6,12 @@
     model.addAttribute("current", "owner");
 
 -->
-<nav th:fragment="navbar(roles, current)" class="navbar navbar-expand-lg navbar-light bg-light" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="navbar(roles, current, username)" class="navbar navbar-expand-lg navbar-light bg-light" xmlns:th="http://www.thymeleaf.org">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/{current}/dashboard(current=${current})}">Dashboard</a>
@@ -21,18 +21,26 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a th:text="${#strings.toUpperCase(#strings.substring(current, 0, 1)) + #strings.substring(current, 1)}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    </a>
+                    <a th:text="${#strings.capitalize(current)}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li th:each="role : ${roles}">
-                            <a th:text="${#strings.toUpperCase(#strings.substring(role, 0, 1)) + #strings.substring(role, 1).toLowerCase()}"
+                            <a th:text="${#strings.capitalize(role)}"
                                class="dropdown-item"
                                th:href="@{/{role}/dashboard(role=${#strings.toLowerCase(role)})}"></a>
                         </li>
                     </ul>
-
                 </li>
             </ul>
+
+            <div class="d-flex align-items-center">
+                <!-- Display the current logged-in username -->
+                <span class="nav-item text-muted me-3" th:text="${username != null ? username : ''}"></span>
+
+                <!-- Logout button -->
+                <form action="/logout" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+            </div>
         </div>
     </div>
 </nav>

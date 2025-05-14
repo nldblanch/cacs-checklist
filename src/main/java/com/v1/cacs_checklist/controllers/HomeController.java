@@ -27,11 +27,11 @@ public class HomeController {
     public String home(Model model) {
 
 //        Use this to reseed localhost data
-        List<Checklist> checklists = TestChecklistData.getDummyChecklists();
-        checklistService.createChecklists(checklists);
-
-        List<Template> templates = TestChecklistData.getDummyTemplates();
-        templateService.createTemplates(templates);
+//        List<Checklist> checklists = TestChecklistData.getDummyChecklists();
+//        checklistService.createChecklists(checklists);
+//
+//        List<Template> templates = TestChecklistData.getDummyTemplates();
+//        templateService.createTemplates(templates);
 
         return "login";
     }

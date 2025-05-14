@@ -18,21 +18,21 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                                         Authentication authentication) throws IOException, ServletException {
         String redirectUrl = null;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-    for (GrantedAuthority grantedAuthority : authorities) {
-        if (grantedAuthority.getAuthority().equals("ADMIN")) {
-            redirectUrl = "/admin/dashboard";
-        } else if (grantedAuthority.getAuthority().equals("SUBMITTER")) {
-            redirectUrl = "/submitter/dashboard";
-        } else if (grantedAuthority.getAuthority().equals("ASSESSOR")) {
-            redirectUrl = "/assessor/dashboard";
-        } else if (grantedAuthority.getAuthority().equals("OWNER")) {
-            redirectUrl = "/owner/dashboard";
-            break;
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals("ADMIN")) {
+                redirectUrl = "/admin/dashboard";
+            } else if (grantedAuthority.getAuthority().equals("SUBMITTER")) {
+                redirectUrl = "/submitter/dashboard";
+            } else if (grantedAuthority.getAuthority().equals("ASSESSOR")) {
+                redirectUrl = "/assessor/dashboard";
+            } else if (grantedAuthority.getAuthority().equals("OWNER")) {
+                redirectUrl = "/owner/dashboard";
+                break;
+            }
         }
-    }
-    if (redirectUrl == null) {
-        throw new IllegalStateException();
-    }
-    getRedirectStrategy().sendRedirect(request,response,redirectUrl);
+        if (redirectUrl == null) {
+            throw new IllegalStateException();
         }
+        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
+}
