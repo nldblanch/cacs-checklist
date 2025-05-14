@@ -28,12 +28,12 @@
         <h1 class="mb-3 text-primary" th:text="${template.templateName}"></h1>
         <div class="d-flex justify-content-between align-items-center mt-3">
             <a th:href="'/owner/checklists/' + ${template.templateId} + '/submissions'" class="btn btn-outline-primary">View Submissions</a>
-            <p class="text-secondary mb-0" th:text="${template.ownerName} + ' is the owner'"></p>
+            <!-- <p class="text-secondary mb-0" th:text="${template.ownerName} + ' is the owner'"></p> -->
         </div>
     </div>
 
     <div class="mt-4">
-        <h2 class="mb-3">Template Fields</h2>
+        <h2 class="mb-3 p-2">Template Fields</h2>
         <ul class="list-group">
             <li th:each="f : ${template.fields}" class="list-group-item">
                 <p class="mb-1"><strong th:text="${f.fieldName}"></strong></p>
@@ -43,8 +43,8 @@
         </ul>
     </div>
 
-    <div class="mt-4">
-        <h2 class="mb-3">Assign Checklist</h2>
+    <div class="mt-4 p-2 pb-4">
+        <h3 class="mb-3">Assign Checklist For Submission</h3>
         <form th:action="@{/owner/checklists/{templateId}/submit(templateId=${template.templateId})}" method="post">
             <div class="row mb-3">
                 <div class="col-md-6">
