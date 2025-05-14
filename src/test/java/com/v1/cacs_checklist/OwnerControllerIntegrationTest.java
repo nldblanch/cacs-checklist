@@ -1,8 +1,7 @@
 package com.v1.cacs_checklist;
 
 import com.v1.cacs_checklist.models.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,13 +25,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class OwnerControllerIntegrationTest {
 
+    static User owner;
     @Autowired
     private MockMvc mvc;
 
     @BeforeEach
     void setUpSecurityContext() {
-        User ownerUser = new User("owner1@v1.com", "password", true, List.of("OWNER"), "Test User");
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(ownerUser, null, ownerUser.getAuthorities()));
+        owner = new User("owner1@v1.com", "password", true, List.of("OWNER"), "Test User");
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(owner, null, owner.getAuthorities()));
     }
 
     @Test
@@ -97,6 +97,16 @@ public class OwnerControllerIntegrationTest {
         String nonExistentTemplateId = "99999";
 
         mvc.perform(get("/owner/checklists/{templateId}", nonExistentTemplateId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/owner/error"));
+    }
+
+    @Test
+    public void givenOwner_whenTemplatesBelongingToOtherOwner_thenRedirectsToError() throws Exception {
+        // Belongs to owner2
+        String templateId = "Temp2";
+
+        mvc.perform(get("/owner/checklists/{templateId}", templateId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/owner/error"));
     }

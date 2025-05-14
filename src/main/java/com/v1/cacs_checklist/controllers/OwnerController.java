@@ -104,8 +104,14 @@ public class OwnerController {
         if (template == null) {
             return "redirect:/owner/error";
         }
+
+        if (!Objects.equals(template.getOwnerEmail(), user.getUsername())) {
+            return "redirect:/owner/error";
+        }
+
         List<User> submitters = userService.getUsersByRole("SUBMITTER");
         List<User> assessors = userService.getUsersByRole("ASSESSOR");
+
         model.addAttribute("template", template);
         model.addAttribute("submitters", submitters);
         model.addAttribute("assessors", assessors);
