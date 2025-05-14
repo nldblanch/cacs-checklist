@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,11 +70,20 @@ public class Template {
         String fieldName;
         boolean required;
         String dataType;
+        List<String> options = new ArrayList<String>();
 
+        public Fieldset() {}
         public Fieldset(String fieldName, String dataType, boolean required) {
             this.fieldName = fieldName;
             this.dataType = dataType;
             this.required = required;
+        }
+
+        public Fieldset(String fieldName, String dataType, boolean required, List<String> options) {
+            this.fieldName = fieldName;
+            this.dataType = dataType;
+            this.required = required;
+            this.options = options;
         }
 
         public String getFieldName() {
@@ -98,6 +108,14 @@ public class Template {
 
         public void setDataType(String dataType) {
             this.dataType = dataType;
+        }
+
+        public List<String> getOptions() {
+            return options;
+        }
+
+        public void setOptions(List<String> options) {
+            this.options = options;
         }
 
         @Override
