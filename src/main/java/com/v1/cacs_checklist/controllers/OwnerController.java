@@ -103,6 +103,9 @@ public class OwnerController {
         if (template == null) {
             return "redirect:/owner/error";
         }
+        if (!Objects.equals(template.getOwnerEmail(), user.getUsername())) {
+            return "redirect:/owner/error";
+        }
         model.addAttribute("template", template);
         return "/owner/template-by-id";
     }
