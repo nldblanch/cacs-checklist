@@ -1,4 +1,4 @@
-package com.v1.cacs_checklist;
+package com.v1.cacs_checklist.controllers;
 
 import com.v1.cacs_checklist.models.User;
 import org.junit.jupiter.api.*;
