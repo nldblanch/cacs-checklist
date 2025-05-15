@@ -1,7 +1,7 @@
 package com.v1.cacs_checklist.services;
 
 import com.v1.cacs_checklist.models.User;
-import com.v1.cacs_checklist.repositories.UserRepository;
+import com.v1.cacs_checklist.repositories.jpa.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.List;
