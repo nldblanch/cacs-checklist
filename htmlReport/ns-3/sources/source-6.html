@@ -45,18 +45,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">SubmitterController</td>
 <td class="coverageStat">
   <span class="percent">
-    25%
+    20%
   </span>
   <span class="absValue">
-    (1/4)
+    (1/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    6.2%
+    0%
   </span>
   <span class="absValue">
-    (1/16)
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.8%
+  </span>
+  <span class="absValue">
+    (1/26)
   </span>
 </td>
 </tr>
@@ -91,10 +99,10 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    14.3%
   </span>
   <span class="absValue">
-    (1/6)
+    (1/7)
   </span>
 </td>
 <td class="coverageStat">
@@ -102,15 +110,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/16)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    2.9%
+    2.3%
   </span>
   <span class="absValue">
-    (1/34)
+    (1/44)
   </span>
 </td>
 </tr>
@@ -204,10 +212,35 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                return result;</b>
 &nbsp;            }
 &nbsp;        }
+&nbsp;    @GetMapping(&quot;/checklists/{checklistId}&quot;)
 &nbsp;
+&nbsp;    public String getChecklistById(@PathVariable String checklistId, Model model) {
+<b class="nc">&nbsp;        verify();</b>
+<b class="nc">&nbsp;        addNav(model);</b>
+<b class="nc">&nbsp;        Optional&lt;Checklist&gt; optionalChecklist = Optional.ofNullable(checklistService.getChecklistById(checklistId));</b>
 &nbsp;
+&nbsp;        // If no checklist is found, redirect to an error page
+<b class="nc">&nbsp;        if (optionalChecklist.isEmpty()) {</b>
+<b class="nc">&nbsp;            return &quot;redirect:/submitter/error&quot;;  // Adjust to your error page mapping</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Get the checklist from the Optional
+<b class="nc">&nbsp;        Checklist checklist = optionalChecklist.get();</b>
+&nbsp;
+&nbsp;        // Add checklist to model so Thymeleaf can access it
+<b class="nc">&nbsp;        model.addAttribute(&quot;checklist&quot;, checklist);</b>
+&nbsp;
+&nbsp;        // Check if the checklist is submitted
+<b class="nc">&nbsp;        if (checklist.isSubmitted()) {</b>
+&nbsp;            // If submitted, return the view for the submitted form
+<b class="nc">&nbsp;            return &quot;submitter/submission-by-id&quot;;  // The page that shows submitted checklists</b>
+&nbsp;        } else {
+&nbsp;            // If not submitted, return the page to complete the checklist
+<b class="nc">&nbsp;            return &quot;submitter/checklist-edit&quot;;  // A page where user can fill out the form</b>
+&nbsp;        }
 &nbsp;
 &nbsp;    }
+&nbsp;}
 &nbsp;
 &nbsp;
 </code>
@@ -233,7 +266,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-14 16:36</div>
+    <div style="float:right;">generated on 2025-05-15 09:53</div>
 </div>
 </body>
 </html>

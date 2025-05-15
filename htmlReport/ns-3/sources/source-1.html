@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > AdminController</title>
+  <title>Coverage Report > Checklist</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.v1.cacs_checklist.controllers</a>
+    <a href="../index.html">com.v1.cacs_checklist.models</a>
 </div>
 
-<h1>Coverage Summary for Class: AdminController (com.v1.cacs_checklist.controllers)</h1>
+<h1>Coverage Summary for Class: Checklist (com.v1.cacs_checklist.models)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">AdminController</td>
+  <td class="name">Checklist</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    100%
   </span>
   <span class="absValue">
-    (1/2)
+    (29/29)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    25%
+    100%
   </span>
   <span class="absValue">
-    (1/4)
+    (43/43)
   </span>
 </td>
 </tr>
@@ -75,29 +75,166 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.controllers;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.models;
 &nbsp;
-&nbsp;import org.springframework.stereotype.Controller;
-&nbsp;import org.springframework.ui.Model;
-&nbsp;import org.springframework.web.bind.annotation.GetMapping;
-&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.data.mongodb.core.index.Indexed;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Document;
+&nbsp;import org.springframework.data.annotation.Id;
 &nbsp;
-&nbsp;import java.util.Arrays;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.*;
 &nbsp;
+&nbsp;@Document
+&nbsp;public class Checklist {
+&nbsp;    @Id
+&nbsp;    String checklistId;
+&nbsp;    @Indexed
+&nbsp;    String checklistTemplateId;
+&nbsp;    String checklistName;
+&nbsp;    boolean submitted;
+&nbsp;    boolean assessed;
+&nbsp;    LocalDate dueDate;
+&nbsp;    LocalDate submissionDate;
+&nbsp;    List&lt;Field&gt; fields;
+&nbsp;    String ownerName;
+&nbsp;    String ownerEmail;
+&nbsp;    String submitterName;
+&nbsp;    String submitterEmail;
+&nbsp;    String assessorName;
+&nbsp;    String assessorEmail;
 &nbsp;
-&nbsp;@Controller
-&nbsp;@RequestMapping(&quot;/admin&quot;)
-<b class="fc">&nbsp;public class AdminController {</b>
-&nbsp;
-&nbsp;    @GetMapping(&quot;/dashboard&quot;)
-&nbsp;    public String home(Model model) {
-<b class="nc">&nbsp;        model.addAttribute(&quot;roles&quot;, Arrays.asList(&quot;owner&quot;, &quot;submitter&quot;, &quot;admin&quot;, &quot;assessor&quot;));</b>
-<b class="nc">&nbsp;        model.addAttribute(&quot;current&quot;, &quot;admin&quot;);</b>
-<b class="nc">&nbsp;        return &quot;admin/dashboard&quot;;</b>
+&nbsp;    public Checklist(String checklistId, String checklistTemplateId, String checklistName, boolean submitted, boolean assessed,
+&nbsp;                     LocalDate dueDate, LocalDate submissionDate, List&lt;Field&gt; fields,
+&nbsp;                     String ownerName, String ownerEmail, String submitterName, String submitterEmail,
+<b class="fc">&nbsp;                     String assessorName, String assessorEmail) {</b>
+<b class="fc">&nbsp;        this.checklistId = checklistId;</b>
+<b class="fc">&nbsp;        this.checklistTemplateId = checklistTemplateId;</b>
+<b class="fc">&nbsp;        this.checklistName = checklistName;</b>
+<b class="fc">&nbsp;        this.submitted = submitted;</b>
+<b class="fc">&nbsp;        this.assessed = assessed;</b>
+<b class="fc">&nbsp;        this.dueDate = dueDate;</b>
+<b class="fc">&nbsp;        this.submissionDate = submissionDate;</b>
+<b class="fc">&nbsp;        this.fields = fields;</b>
+<b class="fc">&nbsp;        this.ownerName = ownerName;</b>
+<b class="fc">&nbsp;        this.ownerEmail = ownerEmail;</b>
+<b class="fc">&nbsp;        this.submitterName = submitterName;</b>
+<b class="fc">&nbsp;        this.submitterEmail = submitterEmail;</b>
+<b class="fc">&nbsp;        this.assessorName = assessorName;</b>
+<b class="fc">&nbsp;        this.assessorEmail = assessorEmail;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;}
+&nbsp;    public String getChecklistId() {
+<b class="fc">&nbsp;        return checklistId;</b>
+&nbsp;    }
 &nbsp;
+&nbsp;    public void setChecklistId(String checklistId) {
+<b class="fc">&nbsp;        this.checklistId = checklistId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getChecklistTemplateId() {
+<b class="fc">&nbsp;        return checklistTemplateId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setChecklistTemplateId(String checklistId) {
+<b class="fc">&nbsp;        this.checklistTemplateId = checklistId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getChecklistName() {
+<b class="fc">&nbsp;        return checklistName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setChecklistName(String checklistName) {
+<b class="fc">&nbsp;        this.checklistName = checklistName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isSubmitted() {
+<b class="fc">&nbsp;        return submitted;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSubmitted(boolean submitted) {
+<b class="fc">&nbsp;        this.submitted = submitted;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isAssessed() {
+<b class="fc">&nbsp;        return assessed;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAssessed(boolean assessed) {
+<b class="fc">&nbsp;        this.assessed = assessed;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public LocalDate getDueDate() {
+<b class="fc">&nbsp;        return dueDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDueDate(LocalDate dueDate) {
+<b class="fc">&nbsp;        this.dueDate = dueDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public LocalDate getSubmissionDate() {
+<b class="fc">&nbsp;        return submissionDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSubmissionDate(LocalDate submissionDate) {
+<b class="fc">&nbsp;        this.submissionDate = submissionDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Field&gt; getFields() {
+<b class="fc">&nbsp;        return fields;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFields(List&lt;Field&gt; fields) {
+<b class="fc">&nbsp;        this.fields = fields;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getOwnerName() {
+<b class="fc">&nbsp;        return ownerName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOwnerName(String ownerName) {
+<b class="fc">&nbsp;        this.ownerName = ownerName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getOwnerEmail() {
+<b class="fc">&nbsp;        return ownerEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOwnerEmail(String ownerEmail) {
+<b class="fc">&nbsp;        this.ownerEmail = ownerEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getSubmitterName() {
+<b class="fc">&nbsp;        return submitterName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSubmitterName(String submitterName) {
+<b class="fc">&nbsp;        this.submitterName = submitterName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getSubmitterEmail() {
+<b class="fc">&nbsp;        return submitterEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSubmitterEmail(String submitterEmail) {
+<b class="fc">&nbsp;        this.submitterEmail = submitterEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getAssessorName() {
+<b class="fc">&nbsp;        return assessorName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAssessorName(String assessorName) {
+<b class="fc">&nbsp;        this.assessorName = assessorName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getAssessorEmail() {
+<b class="fc">&nbsp;        return assessorEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAssessorEmail(String assessorEmail) {
+<b class="fc">&nbsp;        this.assessorEmail = assessorEmail;</b>
+&nbsp;    }
+&nbsp;}
 </code>
 </pre>
 </div>
@@ -121,7 +258,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-14 16:36</div>
+    <div style="float:right;">generated on 2025-05-15 09:58</div>
 </div>
 </body>
 </html>

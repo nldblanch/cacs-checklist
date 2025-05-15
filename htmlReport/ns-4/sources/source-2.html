@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Field</title>
+  <title>Coverage Report > TemplateService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.v1.cacs_checklist.models</a>
+    <a href="../index.html">com.v1.cacs_checklist.services</a>
 </div>
 
-<h1>Coverage Summary for Class: Field (com.v1.cacs_checklist.models)</h1>
+<h1>Coverage Summary for Class: TemplateService (com.v1.cacs_checklist.services)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -37,15 +37,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
-  Branch, %
-</th>
-<th class="coverageStat 
-">
   Line, %
 </th>
 </tr>
 <tr>
-  <td class="name">Field</td>
+  <td class="name">TemplateService</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -56,26 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85.7%
+    80%
   </span>
   <span class="absValue">
-    (6/7)
+    (4/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    80%
   </span>
   <span class="absValue">
-    (4/8)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    91.7%
-  </span>
-  <span class="absValue">
-    (11/12)
+    (4/5)
   </span>
 </td>
 </tr>
@@ -87,51 +75,36 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.models;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.services;
 &nbsp;
-&nbsp;import java.util.Objects;
+&nbsp;import com.v1.cacs_checklist.models.Field;
+&nbsp;import com.v1.cacs_checklist.models.Template;
+&nbsp;import com.v1.cacs_checklist.repositories.mongo.TemplateRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
 &nbsp;
-&nbsp;public class Field {
-&nbsp;    String fieldName;
-&nbsp;    String response;
+&nbsp;import java.util.List;
 &nbsp;
-<b class="fc">&nbsp;    public Field(String fieldName, String response) {</b>
-<b class="fc">&nbsp;        this.fieldName = fieldName;</b>
-<b class="fc">&nbsp;        this.response = response;</b>
+&nbsp;@Service
+<b class="fc">&nbsp;public class TemplateService {</b>
+&nbsp;    @Autowired
+&nbsp;    private TemplateRepository templateRepository;
+&nbsp;
+&nbsp;    public void createTemplates(List&lt;Template&gt; templates) {
+<b class="fc">&nbsp;        templateRepository.saveAll(templates);</b>
+&nbsp;    }
+&nbsp;    public List&lt;Template&gt; getOwnerChecklistTemplates(String username) {
+<b class="fc">&nbsp;        return templateRepository.findByOwnerEmail(username);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public String getFieldName() {
-<b class="fc">&nbsp;        return fieldName;</b>
+&nbsp;    public Template getTemplateById(String templateId) {
+<b class="fc">&nbsp;        return templateRepository.findById(templateId).orElse(null);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void setFieldName(String fieldName) {
-<b class="fc">&nbsp;        this.fieldName = fieldName;</b>
+&nbsp;    public List&lt;Field&gt; getFields(String templateID) {
+<b class="nc">&nbsp;        return templateRepository.getFields(templateID);</b>
 &nbsp;    }
-&nbsp;
-&nbsp;    public String getResponse() {
-<b class="fc">&nbsp;        return response;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public void setResponse(String response) {
-<b class="fc">&nbsp;        this.response = response;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public boolean equals(Object obj) {
-<b class="pc">&nbsp;        if (this == obj) return true;</b>
-<b class="pc">&nbsp;        if (obj == null || getClass() != obj.getClass()) return false;</b>
-<b class="fc">&nbsp;        Field field = (Field) obj;</b>
-<b class="pc">&nbsp;        return Objects.equals(fieldName, field.fieldName) &amp;&amp; Objects.equals(response, field.response);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public int hashCode() {
-<b class="nc">&nbsp;        return Objects.hash(fieldName, response);</b>
-&nbsp;    }
-&nbsp;
 &nbsp;}
-&nbsp;
-&nbsp;
 </code>
 </pre>
 </div>
@@ -155,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-14 16:36</div>
+    <div style="float:right;">generated on 2025-05-15 09:58</div>
 </div>
 </body>
 </html>
