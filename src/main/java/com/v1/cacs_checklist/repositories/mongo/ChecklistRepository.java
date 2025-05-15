@@ -1,4 +1,4 @@
-package com.v1.cacs_checklist.repositories;
+package com.v1.cacs_checklist.repositories.mongo;
 
 import com.v1.cacs_checklist.models.Checklist;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -20,7 +20,7 @@ public interface ChecklistRepository extends MongoRepository<Checklist, String> 
 
     Optional<Checklist> findByChecklistId(String checklistId);
 
-    @Query("{ 'ownerEmail' : { $regex: ?0, $options: 'i' }, 'checklistTemplateId' : ?2 }")
+    @Query("{ 'ownerEmail' : { $regex: ?0, $options: 'i' }, 'checklistTemplateId' : { $eq: ?1 } }")
     List<Checklist> findByOwnerEmailAndChecklistTemplateId(String ownerEmail, String checklistTemplateId);
 
 }

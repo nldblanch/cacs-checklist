@@ -1,12 +1,9 @@
-package com.v1.cacs_checklist.repositories;
+package com.v1.cacs_checklist.repositories.mongo;
 
-import com.v1.cacs_checklist.models.Checklist;
 import com.v1.cacs_checklist.models.Field;
-import com.v1.cacs_checklist.models.Template;
 import com.v1.cacs_checklist.models.Template;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 

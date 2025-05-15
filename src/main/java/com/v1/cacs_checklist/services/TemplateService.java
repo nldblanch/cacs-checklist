@@ -2,7 +2,7 @@ package com.v1.cacs_checklist.services;
 
 import com.v1.cacs_checklist.models.Field;
 import com.v1.cacs_checklist.models.Template;
-import com.v1.cacs_checklist.repositories.TemplateRepository;
+import com.v1.cacs_checklist.repositories.mongo.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

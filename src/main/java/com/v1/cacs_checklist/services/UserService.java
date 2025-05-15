@@ -1,7 +1,7 @@
 package com.v1.cacs_checklist.services;
 
 import com.v1.cacs_checklist.models.User;
-import com.v1.cacs_checklist.repositories.UserRepository;
+import com.v1.cacs_checklist.repositories.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
