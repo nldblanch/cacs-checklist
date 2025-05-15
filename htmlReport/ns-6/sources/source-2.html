@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.v1.cacs_checklist.repositories</a>
+    <a href="../index.html">com.v1.cacs_checklist.repositories.mongo</a>
 </div>
 
-<h1>Coverage Summary for Class: TemplateRepository (com.v1.cacs_checklist.repositories)</h1>
+<h1>Coverage Summary for Class: TemplateRepository (com.v1.cacs_checklist.repositories.mongo)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -39,17 +39,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.repositories;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.repositories.mongo;
 &nbsp;
-&nbsp;import com.v1.cacs_checklist.models.Checklist;
+&nbsp;import com.v1.cacs_checklist.models.Field;
 &nbsp;import com.v1.cacs_checklist.models.Template;
-&nbsp;import com.v1.cacs_checklist.models.Template;
+&nbsp;import org.springframework.data.mongodb.repository.Aggregation;
 &nbsp;import org.springframework.data.mongodb.repository.MongoRepository;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
 &nbsp;public interface TemplateRepository extends MongoRepository&lt;Template, String&gt; {
 &nbsp;    List&lt;Template&gt; findByOwnerEmail(String ownerEmail);
+&nbsp;
+&nbsp;    @Aggregation(pipeline = {
+&nbsp;&quot;{ &#39;$match&#39;: { &#39;templateId&#39;: ?0 } }&quot;,
+&nbsp;&quot;{ &#39;$project&#39;: { &#39;fields&#39;: 1 } }&quot;,
+&nbsp;&quot;{ &#39;$unwind&#39;: &#39;$fields&#39; }&quot;, &quot;{ &#39;$replaceRoot&#39;: { &#39;newRoot&#39;: &#39;$fields&#39; } }&quot;
+&nbsp;})
+&nbsp;
+&nbsp;List&lt;Field&gt; getFields(String templateID);
 &nbsp;}
 </code>
 </pre>
@@ -74,7 +82,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-14 16:36</div>
+    <div style="float:right;">generated on 2025-05-15 09:53</div>
 </div>
 </body>
 </html>

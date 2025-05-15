@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > AssessorController</title>
+  <title>Coverage Report > Field</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,15 +19,18 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.v1.cacs_checklist.controllers</a>
+    <a href="../index.html">com.v1.cacs_checklist.models</a>
 </div>
 
-<h1>Coverage Summary for Class: AssessorController (com.v1.cacs_checklist.controllers)</h1>
+<h1>Coverage Summary for Class: Field (com.v1.cacs_checklist.models)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -42,78 +45,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">AssessorController</td>
+  <td class="name">Field</td>
 <td class="coverageStat">
   <span class="percent">
-    25%
+    100%
   </span>
   <span class="absValue">
-    (1/4)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    6.7%
+    85.7%
   </span>
   <span class="absValue">
-    (1/15)
-  </span>
-</td>
-</tr>
-  <tr>
-    <td class="name">AssessorController$ChecklistCategoriser</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/2)
+    (6/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    50%
   </span>
   <span class="absValue">
-    (0/12)
+    (4/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    91.7%
   </span>
   <span class="absValue">
-    (0/16)
-  </span>
-</td>
-  </tr>
-<tr>
-  <td class="name"><strong>Total</strong></td>
-<td class="coverageStat">
-  <span class="percent">
-    16.7%
-  </span>
-  <span class="absValue">
-    (1/6)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/12)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    3.2%
-  </span>
-  <span class="absValue">
-    (1/31)
+    (11/12)
   </span>
 </td>
 </tr>
+
 </table>
 
 <br/>
@@ -121,91 +87,50 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.controllers;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.v1.cacs_checklist.models;
 &nbsp;
-&nbsp;import com.v1.cacs_checklist.models.Checklist;
-&nbsp;import com.v1.cacs_checklist.models.User;
-&nbsp;import com.v1.cacs_checklist.services.ChecklistService;
-&nbsp;import com.v1.cacs_checklist.services.UserService;
-&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-&nbsp;import org.springframework.stereotype.Controller;
-&nbsp;import org.springframework.ui.Model;
-&nbsp;import org.springframework.web.bind.annotation.GetMapping;
-&nbsp;import org.springframework.web.bind.annotation.PathVariable;
-&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import java.util.Objects;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.util.*;
+&nbsp;public class Field {
+&nbsp;    String fieldName;
+&nbsp;    String response;
 &nbsp;
-&nbsp;
-&nbsp;@Controller
-&nbsp;@RequestMapping(&quot;/assessor&quot;)
-<b class="fc">&nbsp;public class AssessorController {</b>
-&nbsp;
-&nbsp;    @Autowired
-&nbsp;    ChecklistService checklistService;
-&nbsp;
-&nbsp;    User user;
-&nbsp;
-<b class="nc">&nbsp;    private void verify() {this.user = UserService.getLoggedInUser();}</b>
-&nbsp;
-&nbsp;    private void addNav(Model model) {
-<b class="nc">&nbsp;        model.addAttribute(&quot;roles&quot;, user.getRoles());</b>
-<b class="nc">&nbsp;        model.addAttribute(&quot;current&quot;, &quot;assessor&quot;);</b>
+<b class="fc">&nbsp;    public Field(String fieldName, String response) {</b>
+<b class="fc">&nbsp;        this.fieldName = fieldName;</b>
+<b class="fc">&nbsp;        this.response = response;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @GetMapping(&quot;/dashboard&quot;)
-&nbsp;    public String home(Model model) {
-<b class="nc">&nbsp;        verify();</b>
-<b class="nc">&nbsp;        addNav(model);</b>
-&nbsp;
-<b class="nc">&nbsp;        Map&lt;String, List&lt;Checklist&gt;&gt; categorised = AssessorController.ChecklistCategoriser.filterChecklists(</b>
-<b class="nc">&nbsp;                checklistService.getAssessorChecklists(user.getUsername())</b>
-&nbsp;        );
-&nbsp;
-<b class="nc">&nbsp;        List&lt;Checklist&gt; completed = categorised.get(&quot;completed&quot;);</b>
-<b class="nc">&nbsp;        List&lt;Checklist&gt; pendingSubmission = categorised.get(&quot;pendingSubmission&quot;);</b>
-<b class="nc">&nbsp;        List&lt;Checklist&gt; pendingReview = categorised.get(&quot;pendingReview&quot;);</b>
-&nbsp;
-<b class="nc">&nbsp;        model.addAttribute(&quot;completedChecklists&quot;, completed);</b>
-<b class="nc">&nbsp;        model.addAttribute(&quot;pendingSubmissionChecklists&quot;, pendingSubmission);</b>
-<b class="nc">&nbsp;        model.addAttribute(&quot;pendingReviewChecklists&quot;, pendingReview);</b>
-&nbsp;
-&nbsp;
-&nbsp;//        model.addAttribute(&quot;roles&quot;, Arrays.asList(&quot;owner&quot;, &quot;submitter&quot;, &quot;admin&quot;, &quot;assessor&quot;));
-&nbsp;//        model.addAttribute(&quot;current&quot;, &quot;assessor&quot;);
-<b class="nc">&nbsp;        return &quot;assessor/dashboard&quot;;</b>
+&nbsp;    public String getFieldName() {
+<b class="fc">&nbsp;        return fieldName;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;
-<b class="nc">&nbsp;    static class ChecklistCategoriser {</b>
-&nbsp;        public static Map&lt;String, List&lt;Checklist&gt;&gt; filterChecklists(List&lt;Checklist&gt; checklists) {
-<b class="nc">&nbsp;            List&lt;Checklist&gt; completed = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;            List&lt;Checklist&gt; pendingSubmission = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;            List&lt;Checklist&gt; pendingReview = new ArrayList&lt;&gt;();</b>
-&nbsp;
-<b class="nc">&nbsp;            for (Checklist c : checklists) {</b>
-<b class="nc">&nbsp;                if (c.isSubmitted() &amp;&amp; c.isAssessed()) {</b>
-&nbsp;                    //  Submitted AND Assessed → COMPLETED
-<b class="nc">&nbsp;                    completed.add(c);</b>
-<b class="nc">&nbsp;                } else if (c.isSubmitted() &amp;&amp; !c.isAssessed()) {</b>
-&nbsp;                    //  Submitted but NOT Assessed → PENDING SUBMISSION
-<b class="nc">&nbsp;                    pendingSubmission.add(c);</b>
-<b class="nc">&nbsp;                } else if (!c.isSubmitted()) {</b>
-&nbsp;                    // Not Submitted → PENDING REVIEW (assuming this is what you meant)
-<b class="nc">&nbsp;                    pendingReview.add(c);</b>
-&nbsp;                }
-&nbsp;            }
-&nbsp;
-<b class="nc">&nbsp;            Map&lt;String, List&lt;Checklist&gt;&gt; result = new HashMap&lt;&gt;();</b>
-<b class="nc">&nbsp;            result.put(&quot;completed&quot;, completed);</b>
-<b class="nc">&nbsp;            result.put(&quot;pendingSubmission&quot;, pendingSubmission);</b>
-<b class="nc">&nbsp;            result.put(&quot;pendingReview&quot;, pendingReview);</b>
-&nbsp;
-<b class="nc">&nbsp;            return result;</b>
-&nbsp;        }
+&nbsp;    public void setFieldName(String fieldName) {
+<b class="fc">&nbsp;        this.fieldName = fieldName;</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    public String getResponse() {
+<b class="fc">&nbsp;        return response;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setResponse(String response) {
+<b class="fc">&nbsp;        this.response = response;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj) {
+<b class="pc">&nbsp;        if (this == obj) return true;</b>
+<b class="pc">&nbsp;        if (obj == null || getClass() != obj.getClass()) return false;</b>
+<b class="fc">&nbsp;        Field field = (Field) obj;</b>
+<b class="pc">&nbsp;        return Objects.equals(fieldName, field.fieldName) &amp;&amp; Objects.equals(response, field.response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return Objects.hash(fieldName, response);</b>
+&nbsp;    }
+&nbsp;
 &nbsp;}
+&nbsp;
 &nbsp;
 </code>
 </pre>
@@ -230,7 +155,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-14 16:36</div>
+    <div style="float:right;">generated on 2025-05-15 09:58</div>
 </div>
 </body>
 </html>

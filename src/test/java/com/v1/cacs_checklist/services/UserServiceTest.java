@@ -57,16 +57,22 @@ class UserServiceTest {
     void getLoggedInUser_shouldReturnAuthenticatedUser() {
         User user = new User("auth@example.com", "password", true, List.of("ROLE_USER"), "Authenticated User");
 
+        // Mock Authentication
         Authentication auth = mock(Authentication.class);
+        when(auth.isAuthenticated()).thenReturn(true);
         when(auth.getPrincipal()).thenReturn(user);
 
+        // Mock SecurityContext
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(auth);
 
         try (MockedStatic<SecurityContextHolder> contextHolderMock = mockStatic(SecurityContextHolder.class)) {
             contextHolderMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
+            // Call the actual static method
             User result = UserService.getLoggedInUser();
+
+            // Assertion
             assertEquals(user, result);
         }
     }

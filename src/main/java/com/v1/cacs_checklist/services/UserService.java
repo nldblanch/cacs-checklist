@@ -56,8 +56,10 @@ public class UserService implements UserDetailsManager {
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
-        if (authentication.getPrincipal() instanceof com.v1.cacs_checklist.models.User) {
-            return (User) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof User) {
+            return (User) principal;
         }
         return null;
     }
