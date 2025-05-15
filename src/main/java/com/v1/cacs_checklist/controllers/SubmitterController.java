@@ -105,7 +105,7 @@ public class SubmitterController {
             return "submitter/submission-by-id";  // The page that shows submitted checklists
         } else {
             // If not submitted, return the page to complete the checklist
-            return "submitter/checklist-edit";  // A page where user can fill out the form
+            return "submitter/submission-form";  // A page where user can fill out the form
         }
 
     }
