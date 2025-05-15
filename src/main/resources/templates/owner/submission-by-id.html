@@ -28,7 +28,6 @@
         <div class="row align-items-center">
             <div class="col">
                 <h1 class="mb-3 text-primary" th:text="${submission.checklistName}"></h1>
-                <p class="text-muted mb-3" th:text="${submission.ownerName} + ' is the owner'"></p>
             </div>
             <div class="col-auto">
                 <a th:href="'/owner/checklists/' + ${template.templateId} + '/submissions'"
@@ -39,7 +38,7 @@
 
 
     <div class="mt-4">
-        <h3 class="mb-3">Submission Fields</h3>
+        <h3 class="mb-3 p-2 pb-4">Submission Fields</h3>
         <ul class="list-group">
             <li th:each="f : ${submission.fields}" class="list-group-item">
                 <p class="fw-bold mb-1" th:text="${f.fieldName}"></p>
