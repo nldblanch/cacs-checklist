@@ -72,7 +72,7 @@ class SubmitterControllerTest {
         // Perform request
         MvcResult result = mvc.perform(get("/submitter/checklists/CL005"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("submitter/checklist-edit"))
+                .andExpect(view().name("submitter/submission-form"))
                 .andReturn();
 
         // Extract model attributes
