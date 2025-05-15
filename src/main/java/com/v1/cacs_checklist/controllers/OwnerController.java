@@ -41,7 +41,7 @@ public class OwnerController {
         verify();
         addNav(model);
 
-        Map<String, List<Checklist>> categorised = ChecklistCategoriser.filterChecklists(
+        Map<String, List<Checklist>> categorised = Checklist.filterChecklists(
                 checklistService.getOwnerChecklists(user.getUsername())
         );
 
@@ -54,36 +54,6 @@ public class OwnerController {
         model.addAttribute("overdueChecklists", overdue);
 
         return "owner/dashboard";
-    }
-
-    static class ChecklistCategoriser {
-        public static Map<String, List<Checklist>> filterChecklists(List<Checklist> checklists) {
-            List<Checklist> completed = new ArrayList<>();
-            List<Checklist> pending = new ArrayList<>();
-            List<Checklist> overdue = new ArrayList<>();
-
-            LocalDate today = LocalDate.now();
-
-            for (Checklist c : checklists) {
-
-                LocalDate dueDate = c.getDueDate();
-
-                if (c.isSubmitted()) {
-                    completed.add(c);
-                } else if (!c.isSubmitted() && dueDate.isBefore(today)) {
-                    overdue.add(c);
-                } else if (!c.isSubmitted() && !dueDate.isBefore(today)) {
-                    pending.add(c);
-                }
-            }
-
-            Map<String, List<Checklist>> result = new HashMap<>();
-            result.put("completed", completed);
-            result.put("pending", pending);
-            result.put("overdue", overdue);
-
-            return result;
-        }
     }
 
     @GetMapping("/checklists")
@@ -185,8 +155,6 @@ public class OwnerController {
         checklistService.createChecklist(newChecklist);
         return "redirect:/owner/checklists/" + templateId + "/submissions";
     }
-
-
 
 }
 
