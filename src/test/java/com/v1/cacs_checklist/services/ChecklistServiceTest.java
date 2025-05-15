@@ -2,7 +2,7 @@ package com.v1.cacs_checklist.services;
 
 import com.v1.cacs_checklist.models.Checklist;
 import com.v1.cacs_checklist.models.Field;
-import com.v1.cacs_checklist.repositories.ChecklistRepository;
+import com.v1.cacs_checklist.repositories.mongo.ChecklistRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
