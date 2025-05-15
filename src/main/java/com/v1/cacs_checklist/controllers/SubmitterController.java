@@ -21,7 +21,6 @@ public class SubmitterController {
     @Autowired
     ChecklistService checklistService;
 
-
     User user;
 
     private void verify() {this.user = UserService.getLoggedInUser();}
@@ -81,8 +80,8 @@ public class SubmitterController {
                 return result;
             }
         }
-    @GetMapping("/checklists/{checklistId}")
 
+    @GetMapping("/checklists/{checklistId}")
     public String getChecklistById(@PathVariable String checklistId, Model model) {
         verify();
         addNav(model);
@@ -95,6 +94,10 @@ public class SubmitterController {
 
         // Get the checklist from the Optional
         Checklist checklist = optionalChecklist.get();
+
+        if (!Objects.equals(checklist.getSubmitterEmail(), user.getUsername())) {
+            return "redirect:/submitter/error";
+        }
 
         // Add checklist to model so Thymeleaf can access it
         model.addAttribute("checklist", checklist);
