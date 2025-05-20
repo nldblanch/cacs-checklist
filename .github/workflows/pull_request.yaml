@@ -34,6 +34,7 @@ jobs:
           - 27017:27017
 
     env:
+      SPRING_PROFILES_ACTIVE: "ci"
       SPRING_APPLICATION_NAME: "cacs-application"
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_HIBERNATE_NAMING_IMPLICIT_STRATEGY: "org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl"
