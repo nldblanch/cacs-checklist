@@ -34,6 +34,7 @@ jobs:
           - 27017:27017
 
     env:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${{ github.event_name == 'pull_request' && 'create' || 'update' }}
       SPRING_PROFILES_ACTIVE: "ci"
       SPRING_APPLICATION_NAME: "cacs-application"
       SPRING_JPA_SHOW_SQL: "true"
