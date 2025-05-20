@@ -66,7 +66,7 @@ jobs:
           maven-version: '3.9.6'
 
       - name: Wait for MySQL to Start
-        run: sleep 20
+        run: sleep 5
 
       - name: Verify MySQL Connection
         run: mysql -h 127.0.0.1 -P 3306 -u user -p'password' -e "SHOW DATABASES;"

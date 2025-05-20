@@ -35,6 +35,11 @@ public class OwnerViewTest {
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
     }
 
+    @BeforeAll
+    static void waitForServerStartup() throws InterruptedException {
+        Thread.sleep(5000);
+    }
+
     @AfterAll
     static void closeBrowser() {
         if (playwright != null) {
