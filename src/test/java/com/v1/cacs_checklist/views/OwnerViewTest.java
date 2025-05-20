@@ -12,6 +12,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.microsoft.playwright.*;
 
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,9 +38,22 @@ public class OwnerViewTest {
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setTimeout(60000));
     }
 
-    @BeforeAll
-    static void waitForServerStartup() throws InterruptedException {
-        Thread.sleep(5000);
+    @BeforeEach
+    void waitForServerStartup() throws InterruptedException {
+        int retries = 10;
+        while (retries > 0) {
+            try {
+                URI uri = URI.create("http://localhost:" + port);
+                HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+                connection.setRequestMethod("HEAD");
+                connection.connect();
+                if (connection.getResponseCode() == 200) {
+                    break; // Server is up!
+                }
+            } catch (Exception ignored) {}
+            Thread.sleep(2000); // Wait and retry
+            retries--;
+        }
     }
 
     @AfterAll
