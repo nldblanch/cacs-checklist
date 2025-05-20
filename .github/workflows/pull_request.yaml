@@ -69,7 +69,7 @@ jobs:
         run: mvn test -Dspring.profiles.active=test
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: target/*.jar
