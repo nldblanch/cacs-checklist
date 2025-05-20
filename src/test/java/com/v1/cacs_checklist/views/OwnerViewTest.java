@@ -32,7 +32,7 @@ public class OwnerViewTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setTimeout(60000));
     }
 
     @BeforeAll
