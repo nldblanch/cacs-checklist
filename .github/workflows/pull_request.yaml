@@ -1,4 +1,4 @@
-name: Build and Test Spring Boot App
+name: Build and Test App
 
 on:
   pull_request:
@@ -26,7 +26,7 @@ jobs:
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
       mongodb:
         image: mongo:6
@@ -38,14 +38,14 @@ jobs:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_HIBERNATE_NAMING_IMPLICIT_STRATEGY: "org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl"
       SPRING_JPA_HIBERNATE_NAMING_PHYSICAL_STRATEGY: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
-      MYSQL_HOST: "localhost"
+      MYSQL_HOST: "127.0.0.1"
       SPRING_DATA_MONGODB_HOST: "localhost"
       SPRING_DATA_MONGODB_PORT: "27017"
       SPRING_DATA_MONGODB_DATABASE: "mydb"
       SERVER_PORT: "8080"
       SPRING_DATASOURCE_URL: "jdbc:mysql://127.0.0.1:3306/mydb"
-      SPRING_DATASOURCE_USERNAME: "root"
-      SPRING_DATASOURCE_PASSWORD: "root"
+      SPRING_DATASOURCE_USERNAME: "user"
+      SPRING_DATASOURCE_PASSWORD: "password"
 
     steps:
       - name: Checkout Repository
@@ -61,13 +61,12 @@ jobs:
         uses: stCarolas/setup-maven@v4
         with:
           maven-version: '3.9.6'
-    
-      - name: Verify Database Connection
-        run: |
-          echo "Checking MySQL and MongoDB..."
-          sleep 10 # Ensures containers are ready
-          mysql --host=localhost --port=3306 --user=root --password=root -e "SHOW DATABASES;"
-          mongo --host=localhost --port=27017 --eval "db.runCommand({ connectionStatus: 1 })"
+
+      - name: Wait for MySQL to Start
+        run: sleep 20
+
+      - name: Verify MySQL Connection
+        run: mysql -h 127.0.0.1 -P 3306 -u user -p'password' -e "SHOW DATABASES;"
 
       - name: Build with Maven
         run: mvn clean install
