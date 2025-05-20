@@ -46,6 +46,39 @@ public class Checklist {
         this.assessorEmail = assessorEmail;
     }
 
+    public static Map<String, List<Checklist>> filterChecklists(List<Checklist> checklists) {
+        List<Checklist> completed = new ArrayList<>();
+        List<Checklist> pending = new ArrayList<>();
+        List<Checklist> overdue = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+
+        for (Checklist c : checklists) {
+
+            LocalDate dueDate = c.getDueDate();
+
+            if (c.isSubmitted()) {
+                completed.add(c);
+            } else if (dueDate == null) {
+                pending.add(c);
+            } else if (!c.isSubmitted() && dueDate.isBefore(today)) {
+                overdue.add(c);
+            } else if (!c.isSubmitted() && !dueDate.isBefore(today)) {
+                pending.add(c);
+            }
+        }
+
+        Map<String, List<Checklist>> result = new HashMap<>();
+        result.put("completed", completed);
+        result.put("pending", pending);
+        result.put("overdue", overdue);
+
+        return result;
+    }
+
+
+    // Getters and setters
+
     public String getChecklistId() {
         return checklistId;
     }
