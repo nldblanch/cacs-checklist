@@ -68,8 +68,13 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.1.0
+      - name: Start ZAP Security Scan
+        run: |
+          docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-baseline.py \
+          -t "http://localhost:8081" -r zap_report.html
+
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
         with:
-          target: 'http://localhost:8081'
-          fail_action: false  # Prevent the workflow from failing immediately on findings
+          name: zap-security-report
+          path: zap_report.html
